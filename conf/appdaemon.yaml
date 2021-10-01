@@ -1,0 +1,19 @@
+appdaemon:
+  plugins:
+    HASS:
+      type: hass
+      ha_url: http://localhost:8123
+      token: !secret token
+    MQTT:
+       type: mqtt
+       namespace: mqtt
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  time_zone: Europe/Berlin 
+  app_dir: /srv/appdaemon/data/apps
+api:
+admin:
+hadashboard:
+http:
+  url: http://localhost:8080

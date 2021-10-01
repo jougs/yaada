@@ -1,0 +1,56 @@
+global_modules:
+  - scene_manager
+
+ambient_lights:
+  module: ambient_lights
+  class: AmbientLights
+living_area_lights:
+  module: living_area_lights
+  class: LivingAreaLights
+  global_modules:
+    scene_manager
+hallway_lights:
+  module: hallway_lights
+  class: HallwayLights
+  global_modules:
+    scene_manager
+guest_bathroom_lights:
+  module: guest_bathroom_lights
+  class: GuestBathroomLights
+  global_modules:
+    scene_manager
+mancave_lights:
+  module: mancave_lights
+  class: MancaveLights
+  global_modules:
+    scene_manager_esphome
+bedroom_lights:
+  module: bedroom_lights
+  class: BedroomLights
+  global_modules:
+    scene_manager
+bathroom_lights:
+  module: bathroom_lights
+  class: BathroomLights
+  global_modules:
+    scene_manager
+doorbell:
+  module: doorbell
+  class: Doorbell
+    
+motion_lights:
+  module: motion_lights
+  class: MotionLights
+hallway_effect:
+  module: hallway_effect
+  class: HallwayEffect
+mediabox:
+  module: mediabox
+  class: Mediabox
+remote_controls:
+  module: remote_controls
+  class: RemoteControls
+
+#tester:
+#  module: tester
+#  class: Tester
