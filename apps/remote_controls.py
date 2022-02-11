@@ -17,7 +17,7 @@ import mqttapi as mqtt
 #  * bightness_up_release
 #  * toggle
 #  * toggle_hold
-#
+
 # IKEA Tradfri E1743 (two buttons, square)
 #  * on
 #  * off
@@ -71,13 +71,19 @@ class BedroomRemote():
         scenes = ("main",)
         for scene in scenes:
             self.hass.turn_on(self.scene_input(scene))
-        scenes = ("reading_window", "reading_door", "full")
+        scenes = ("readingwindow", "readingdoor", "full")
         for scene in scenes:
             self.hass.turn_off(self.scene_input(scene))
     def off(self):
-        scenes = ("reading_window", "reading_door", "full", "main", "ambient")
+        scenes = ("readingwindow", "readingdoor", "full", "main", "ambient")
         for scene in scenes:
             self.hass.turn_off(self.scene_input(scene))
+    def brightness_move_up(self):
+        msg = "master_bedroom_hallway_door_bottom_up_short"
+        self.hass.call_service("mqtt/publish", topic='input', payload=msg)
+    def brightness_move_down(self):
+        msg = "master_bedroom_hallway_door_bottom_down_short"
+        self.hass.call_service("mqtt/publish", topic='input', payload=msg)
 
 
 class RemoteControls(hass.Hass):
