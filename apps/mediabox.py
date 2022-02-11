@@ -27,6 +27,18 @@ class Mediabox(hass.Hass):
             ],
             "delay": 1.5,
         },
+        "bedroom_musicbox": {
+            "name": "Bedroom Spotify",
+            "amps" : [
+                "light.master_bedroom_tube_radio",
+            ],
+            "delay": 0,
+        },
+        "office_musicbox": {
+            "name": "Office Spotify",
+            "amps" : [],
+            "delay": 0,
+        },
     }
 
 
