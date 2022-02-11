@@ -27,16 +27,10 @@ class MancaveLights(SceneManager):
             'icon': 'mdi:guitar-electric',
             'replaces': [],
             'lights': {
-                "light.mancave_corner_left": {
-                    "state": "on", "brightness": 255, "rgb_color": (0,0,255), "white_value": 0
-                },
-                "light.mancave_corner_right": {
-                    "state": "on", "brightness": 255, "rgb_color": (0,255,0), "white_value": 0
-                },
+                "light.mancave_corner_left": {"state": "on", "brightness": 255, "rgbw_color": (0,0,255,0)},
+                "light.mancave_corner_right": {"state": "on", "brightness": 255, "rgbw_color": (0,255,0,0)},
                 "light.mancave_table": {"state": "on", "brightness": 72},
-                "light.mancave_death_zone": {
-                    "state": "on", "brightness": 255, "rgb_color": (255,0,0), "white_value": 0
-                },
+                "light.mancave_death_zone": {"state": "on", "brightness": 255, "rgbw_color": (255,0,0,0)},
             }
         },
         "climbing": {
@@ -46,9 +40,7 @@ class MancaveLights(SceneManager):
             'lights': {
                 "light.mancave_ceiling_long_wall": {"state": "on", "brightness": 255},
                 "light.mancave_ceiling_short_wall": {"state": "on", "brightness": 255},
-                "light.mancave_death_zone": {
-                    "state": "on", "brightness": 255, "rgb_color": (255,0,0), "white_value": 255
-                },
+                "light.mancave_death_zone": {"state": "on", "brightness": 255, "rgbw_color": (255,0,0,255)},
             }
         },
     }
