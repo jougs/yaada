@@ -119,12 +119,12 @@ class SceneManager(hass.Hass):
 
         '''
 
-        msg = f'event_name={event_name}, data={data}, kwargs={kwargs}'
-        self.log('button_press()', msg)
-
         button = data['payload']
         if button not in self.buttons:
             return
+
+        msg = f'event_name={event_name}, data={data}, kwargs={kwargs}'
+        self.log('button_press()', msg)
 
         # TODO: check if scene is a compound and act accordingly
         # TODO: i.e. handle lists of scenes to activate and deactivate
@@ -213,10 +213,14 @@ class SceneManager(hass.Hass):
         composite_scene = list(composite_scene.items())
         shuffle(composite_scene)
 
+        off_lights = []
         for entity_id, data in composite_scene:
             if data.pop('state') == 'on':
                 self.log('show()', f'turning on {entity_id} with data={data}')
                 self.turn_on(entity_id, **data)
             else:
-                self.log('show()', f'turning off {entity_id}')
-                self.turn_off(entity_id)
+                off_lights.append(entity_id)
+
+        for entity_id in off_lights:
+            self.log('show()', f'turning off {entity_id}')
+            self.turn_off(entity_id)
