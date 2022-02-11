@@ -24,6 +24,7 @@ class LivingAreaLights(SceneManager):
         "light.kitchen_hob": {"state": "on", "brightness": 255},
         "light.kitchen_wall_cabinet": {"state": "on", "brightness": 255},
         "light.living_room_ceiling_west": {"state": "on", "brightness": 255},
+        "light.living_room_ceiling_east": {"state": "on", "brightness": 255},
         "light.living_room_corner_shelf": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
         "light.living_room_fireplace": {"state": "on", "brightness": 255},
         "light.living_room_paper_lamp": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
@@ -103,7 +104,8 @@ class LivingAreaLights(SceneManager):
                 "light.kitchen_bar_downlight": {"state": "on", "brightness": 112},
                 "light.kitchen_wall_cabinet": {"state": "on", "brightness": 64},
                 "light.dining_room_plant_stand": {"state": "on", "brightness": 64, "rgb_color": (128,96,0)},
-                "light.living_room_ceiling_west": {"state": "on", "brightness": 96},
+                "light.living_room_ceiling_west": {"state": "on", "brightness": 64},
+                "light.living_room_ceiling_east": {"state": "on", "brightness": 64},
                 "light.living_room_corner_shelf": {"state": "on", "brightness": 128, "rgb_color": (255,128,0)},
                 "light.living_room_fireplace": {"state": "on", "brightness": 128},
                 "light.living_room_paper_lamp": {"state": "on", "brightness": 79, "xy_color": (0.491, 0.39)},
@@ -116,6 +118,7 @@ class LivingAreaLights(SceneManager):
             'replaces': ['chillout'],
             'lights': {
                 "light.living_room_ceiling_west": {"state": "on", "brightness": 255},
+                "light.living_room_ceiling_east": {"state": "on", "brightness": 255},
                 "light.living_room_corner_shelf": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
                 "light.living_room_fireplace": {"state": "on", "brightness": 255},
                 "light.living_room_paper_lamp": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
@@ -141,29 +144,6 @@ class LivingAreaLights(SceneManager):
         },
     }
 
-#[
-#    ('all_on', False),    [ 1     1   ]
-#    ('cooking', True),    [ 1   1   0 ]
-#    ('dining',
-#    ('bar',
-#    ('chillout',
-#    ('ambient',               
-#    'all_off',            [ 0 0 0 0 0 ]
-#                        -----------------
-#                          [
-#]
-#
-#
-#class based design
-#chillout = Scene(priority)
-#
-#chilout.dim()
-#  multipliziert mit dimmstufe
-#  bei binaerlampen toggle bei 50%
-
-# dim+ only raises levels of lamps that are below
-# dim- only lowers levels of lampt that are above
-    
     buttons = {
         "kitchen_hallway_door_short": "cooking",
         "kitchen_hallway_door_long": "alloff",
