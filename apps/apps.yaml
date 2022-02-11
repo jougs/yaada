@@ -4,6 +4,28 @@ global_modules:
 ambient_lights:
   module: ambient_lights
   class: AmbientLights
+covers:
+  module: covers
+  class: CoverManager
+doorbell:
+  module: doorbell
+  class: Doorbell
+dust_collection:
+  module: dust_collection
+  class: DustCollection
+hallway_effect:
+  module: hallway_effect
+  class: HallwayEffect
+mediabox:
+  module: mediabox
+  class: Mediabox
+motion_lights:
+  module: motion_lights
+  class: MotionLights
+remote_controls:
+  module: remote_controls
+  class: RemoteControls
+
 living_area_lights:
   module: living_area_lights
   class: LivingAreaLights
@@ -23,7 +45,7 @@ mancave_lights:
   module: mancave_lights
   class: MancaveLights
   global_modules:
-    scene_manager_esphome
+    scene_manager
 bedroom_lights:
   module: bedroom_lights
   class: BedroomLights
@@ -34,22 +56,16 @@ bathroom_lights:
   class: BathroomLights
   global_modules:
     scene_manager
-doorbell:
-  module: doorbell
-  class: Doorbell
-    
-motion_lights:
-  module: motion_lights
-  class: MotionLights
-hallway_effect:
-  module: hallway_effect
-  class: HallwayEffect
-mediabox:
-  module: mediabox
-  class: Mediabox
-remote_controls:
-  module: remote_controls
-  class: RemoteControls
+office_lights:
+  module: office_lights
+  class: OfficeLights
+  global_modules:
+    scene_manager
+laundry_room_lights:
+  module: laundry_room_lights
+  class: LaundryRoomLights
+  global_modules:
+    scene_manager
 
 #tester:
 #  module: tester
