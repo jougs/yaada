@@ -1,8 +1,9 @@
-import json
-from copy import copy
 import hassapi as hass
-from os import path
+import json
+
 from random import shuffle
+from copy import copy
+from os import path
 
 
 class SceneManager(hass.Hass):
@@ -54,6 +55,8 @@ class SceneManager(hass.Hass):
         self.listen_state(self.set_ambient, 'sensor.ambient_lights', attribute='state')
         if self.get_state('sensor.ambient_lights') not in (None, 'off'):
             self.scene_stack.insert(1, 'ambient')
+            attr = {"icon": self.scenes["ambient"]["icon"]}
+            self.set_state(self.get_scene_input('ambient'), state='on', attributes=attr)
 
         self.listen_event(self.button_press, 'MQTT_MESSAGE', topic='input', namespace='mqtt')
 
