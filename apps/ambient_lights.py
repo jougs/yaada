@@ -9,7 +9,7 @@ end_time = "02:00:00"
 class AmbientLights(hass.Hass):
 
     sensor = "sensor.ambient_lights"
-    attributes = {"friendly_name": "Ambient Lights"}
+    attributes = {"friendly_name": "Ambient Lights", 'icon': "mdi:weather-night"}
 
     def initialize(self):
         """Initialize the App
