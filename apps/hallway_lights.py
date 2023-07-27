@@ -16,6 +16,9 @@ class HallwayLights(SceneManager):
         "light.downstairs_hallway_stele_6": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,196)},
         "light.downstairs_hallway_stele_7": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,196)},
         "light.downstairs_hallway_sewing_machine": {"state": "on"},
+        "light.downstairs_hallway_up_down_1": {"state": "on", "brightness": 255},
+        "light.downstairs_hallway_up_down_2": {"state": "on", "brightness": 255},
+        "light.downstairs_hallway_up_down_3": {"state": "on", "brightness": 255},
         "light.upstairs_hallway_corner": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,0)},
         "light.upstairs_hallway_walls": {"state": "on"},
         "light.upstairs_hallway_giftbox": {"state": "on"},
@@ -51,6 +54,9 @@ class HallwayLights(SceneManager):
                 "light.downstairs_hallway_stele_5": {"state": "on", "brightness": 196, "rgb_color": (255,224,160)},
                 "light.downstairs_hallway_stele_6": {"state": "on", "brightness": 196, "rgb_color": (255,224,160)},
                 "light.downstairs_hallway_stele_7": {"state": "on", "brightness": 196, "rgb_color": (255,224,160)},
+                "light.downstairs_hallway_up_down_1": {"state": "on", "brightness": 128},
+                "light.downstairs_hallway_up_down_2": {"state": "on", "brightness": 128},
+                "light.downstairs_hallway_up_down_3": {"state": "on", "brightness": 128},
             }
         },
         "upstairs": {
@@ -69,7 +75,7 @@ class HallwayLights(SceneManager):
         "downstairs_hallway_entrance_door_short": "downstairs",
         "downstairs_hallway_office_door_short": "downstairs",
         "downstairs_hallway_laundry_room_door_short": "downstairs",
-        "downstairs_hallway_boiler_room_door_short": "downstairs",
+        "downstairs_hallway_furnace_room_door_short": "downstairs",
         "downstairs_hallway_workshop_door_bottom_short": "downstairs",
         "downstairs_hallway_workshop_door_top_short": "upstairs",
         "upstairs_hallway_guest_room_door_short": "upstairs",
