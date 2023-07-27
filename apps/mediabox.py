@@ -17,6 +17,10 @@ class Mediabox(hass.Hass):
                 "light.living_room_wall_socket_media",
             ],
             "delay": 0,
+            "hdmi_switch": {
+                "topic": "living_room_hdmi_switch/command",
+                "payload": "Media center",
+            },
         },
         "mancave_musicbox": {
             "name": "Mancave Spotify",
@@ -54,9 +58,10 @@ class Mediabox(hass.Hass):
 
             sensor_name = "sensor." + mediabox["name"].lower().replace(" ", "_")
             mediabox["sensor_name"] = sensor_name
-            
+
             attributes = {'icon': "mdi:stop", 'friendly_name': mediabox["name"]}
             self.set_state(sensor_name , state="Not connected", attributes=attributes)
+
 
 
     def state_change(self, event_name, data, kwargs):
@@ -72,21 +77,21 @@ class Mediabox(hass.Hass):
         self.log('state_change()', f"payload={payload}")
 
         state = None # Don't do anything for events change and volume_set
-        
+
         if payload['event'] == 'paused':
             state = {
                 "icon": "mdi:pause",
                 "state": "Not playing",
                 "amp": "off"
             }
-            
-        if payload['event'] in ('off', 'stop'):
+
+        if payload['event'] in ('off', 'stop', 'stopped'):
             state = {
                 "icon": "mdi:stop",
                 "state": "Not connected",
                 "amp": "off"
             }
-            
+
         if payload['event'] == 'playing':
             track_info = self.spotify.track("spotify:track:" + payload["track_id"])
             track_name = track_info["name"]
@@ -104,9 +109,19 @@ class Mediabox(hass.Hass):
                 "state": "Manual operation",
                 "amp": "on"
             }
-            
+
         if state is not None:
             mediabox = self.mediaboxes[mediabox]
+
+            if "hdmi_switch" in mediabox:
+                topic = mediabox["hdmi_switch"]["topic"]
+                payload = mediabox["hdmi_switch"]["payload"]
+                self.call_service("mqtt/publish", topic=topic, payload=payload)
+
+            state['friendly_name'] = mediabox['name']
+            self.set_state(mediabox['sensor_name'], state=state.pop('state'), attributes=state)
+
+            # switch amps last, as this might involve delays
             amp_state = state.pop('amp')
             amps = mediabox['amps'] if amp_state == 'on' else mediabox['amps'][::-1]
             for amp in amps:
@@ -114,26 +129,24 @@ class Mediabox(hass.Hass):
                 #  * Kodi is currently playing and has requested the amp to be on
                 #  * Spotify's last status change was to playing
                 #  * the source selector is set on HDMI and the amp is turned on
-                #  * the source selector is on external audio 
+                #  * the source selector is on external audio
                 # curl -D - -H 'Content-Type: applson' -d '{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}' localhost/jsonrpc
                 # curl -D - -H 'Content-Type: applson' -d '{"jsonrpc": "2.0", "method": "Player.GetProperties", "id": 1, "params": {"playerid": 1, "properties": ["speed"]}}' localhost/jsonrpc
                 # id: just some sequence number to relate the response to the request
                 # speed: is returned as 0 if the player is on pause
-                
+
                 self.set_amp_state(amp, {'state': amp_state})
                 sleep(mediabox["delay"])
 
-            state['friendly_name'] = mediabox['name']
-            self.set_state(mediabox['sensor_name'], state=state.pop('state'), attributes=state)
-            
+
     def set_amp_state(self, entity, state):
 
         self.log('set_state()', f'{entity}')
 
         data = copy(state)
         if data.pop('state') == 'on':
-            self.log('set_state()', f'turning on {entity} with data={data}')
+            self.log('set_state()', f'turning on amp {entity} with data={data}')
             self.turn_on(entity, **data)
         else:
-            self.log('set_state()', f'turning off {entity}')
+            self.log('set_state()', f'turning off amp {entity}')
             self.turn_off(entity)
