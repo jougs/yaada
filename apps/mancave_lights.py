@@ -7,11 +7,11 @@ class MancaveLights(SceneManager):
     lights = {
         "light.mancave_ceiling_long_wall": {"state": "on", "brightness": 255},
         "light.mancave_ceiling_short_wall": {"state": "on", "brightness": 255},
-        "light.mancave_corner_left": {"state": "on", "brightness": 255},
-        "light.mancave_corner_right": {"state": "on", "brightness": 255},
+        "light.mancave_corner_left": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,196)},
+        "light.mancave_corner_right": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,196)},
         "light.mancave_boulder": {"state": "on", "brightness": 255},
         "light.mancave_base_camp": {"state": "on", "brightness": 255},
-        "light.mancave_death_zone": {"state": "on", "brightness": 255},
+        "light.mancave_death_zone": {"state": "on", "brightness": 255, "rgbw_color": (255,224,160,196)},
         "light.mancave_table": {"state": "on", "brightness": 255},
     }
 
