@@ -36,15 +36,14 @@ class Doorbell(hass.Hass):
 
             attributes = {
                 'transition': self.trans_time,
-                "rgb_color": (255, 0, 0),
-                "white_value": 0,
+                "rgbw_color": (255, 0, 0, 0),
                 "brightness": 255,
             }
             self.turn_on(light, **attributes)
 
             if old_state['state'] == "on":
                 attributes = {"transition": self.trans_time}
-                for key in ("brightness", "rgb_color", "brightness", "white_value"):
+                for key in ("brightness", "rgbw_color", "brightness"):
                     attributes[key] = old_state["attributes"][key]
                 self.run_in(self.turn_light_on, self.trans_time, light=light, attributes=attributes)
             else:
