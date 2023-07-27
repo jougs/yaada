@@ -6,8 +6,8 @@ class BedroomLights(SceneManager):
 
     lights = {
         "light.bedroom_floor": {"state": "on", "brightness": 255},
-        "light.master_bedroom_bedside_window": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
-        "light.master_bedroom_bedside_door": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
+        "light.bedroom_bedside_window": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
+        "light.bedroom_bedside_door": {"state": "on", "brightness": 255, "xy_color": (0.358, 0.346)},
         "light.master_bedroom_rubber_tree": {"state": "on"},
         "light.master_bedroom_gift_box": {"state": "on"},
     }
@@ -28,8 +28,8 @@ class BedroomLights(SceneManager):
             'replaces': ["readingwindow", "readingdoor"],
             'lights': {
                 "light.bedroom_floor": {"state": "on", "brightness": 196},
-                "light.master_bedroom_bedside_window": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
-                "light.master_bedroom_bedside_door": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
+                "light.bedroom_bedside_window": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
+                "light.bedroom_bedside_door": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
             }
         },
         "readingwindow": {
@@ -37,7 +37,7 @@ class BedroomLights(SceneManager):
             'icon': 'mdi:arrow-down-bold-box-outline',
             'replaces': [],
             'lights': {
-                "light.master_bedroom_bedside_window": {"state": "on", "brightness": 32, "xy_color": (0.491, 0.39)},
+                "light.bedroom_bedside_window": {"state": "on", "brightness": 128, "xy_color": (0.491, 0.39)},
             }
         },
         "readingdoor": {
@@ -45,7 +45,7 @@ class BedroomLights(SceneManager):
             'icon': 'mdi:arrow-down-bold-box-outline',
             'replaces': [],
             'lights': {
-                "light.master_bedroom_bedside_door": {"state": "on", "brightness": 32, "xy_color": (0.491, 0.39)},
+                "light.bedroom_bedside_door": {"state": "on", "brightness": 128, "xy_color": (0.491, 0.39)},
             }
         },
     }
