@@ -56,7 +56,7 @@ class LaundryReminder(hass.Hass):
             msg_data = {
                 "target": self.args["telegram_target"],
                 "message": "The laundry is done!",
-                "inline_keyboard": [[["Got it!", "/laundry_ack"]]]
+                "inline_keyboard": [[["Got it!", "/laundry_ack"]]],
             }
             self.call_service("telegram_bot/send_message", **msg_data)
 
@@ -67,8 +67,8 @@ class LaundryReminder(hass.Hass):
         if data["data"] == "/laundry_ack":
             msg_data = {
                 "target": self.args["telegram_target"],
-                "chat_id": data["message"]["chat"]["id"]
-                "message_id": data["message"]["message_id"]
-                "message": "Laundry finished"
+                "chat_id": data["message"]["chat"]["id"],
+                "message_id": data["message"]["message_id"],
+                "message": "Laundry finished",
             }
             self.call_service("telegram_bot/edit_message", **msg_data_id)
