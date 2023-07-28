@@ -4,6 +4,16 @@ global_modules:
 ambient_lights:
   module: ambient_lights
   class: AmbientLights
+bathroom_fan:
+  module: bathroom_fan
+  class: BathroomFan
+calendars:
+  module: calendars
+  class: Calendars
+  telegram_target: !secret telegram_target
+compressor:
+  module: compressor
+  class: Compressor
 covers:
   module: covers
   class: CoverManager
@@ -16,34 +26,34 @@ dust_collection:
 hallway_effect:
   module: hallway_effect
   class: HallwayEffect
+hdmi_switch:
+  module: hdmi_switch
+  class: HDMISwitch
+laundry_reminder:
+  module: laundry_reminder
+  class: LaundryReminder
+  telegram_target: !secret telegram_target
 mediabox:
   module: mediabox
   class: Mediabox
+movie_lights:
+  module: movie_lights
+  class: MovieLights
+  telegram_target: !secret telegram_target
 motion_lights:
   module: motion_lights
   class: MotionLights
 remote_controls:
   module: remote_controls
   class: RemoteControls
+solar:
+  module: solar
+  class: Solar
 
-living_area_lights:
-  module: living_area_lights
-  class: LivingAreaLights
-  global_modules:
-    scene_manager
-hallway_lights:
-  module: hallway_lights
-  class: HallwayLights
-  global_modules:
-    scene_manager
-guest_bathroom_lights:
-  module: guest_bathroom_lights
-  class: GuestBathroomLights
-  global_modules:
-    scene_manager
-mancave_lights:
-  module: mancave_lights
-  class: MancaveLights
+
+bathroom_lights:
+  module: bathroom_lights
+  class: BathroomLights
   global_modules:
     scene_manager
 bedroom_lights:
@@ -51,9 +61,34 @@ bedroom_lights:
   class: BedroomLights
   global_modules:
     scene_manager
-bathroom_lights:
-  module: bathroom_lights
-  class: BathroomLights
+furnace_room_lights:
+  module: furnace_room_lights
+  class: FurnaceRoomLights
+  global_modules:
+    scene_manager
+guest_bathroom_lights:
+  module: guest_bathroom_lights
+  class: GuestBathroomLights
+  global_modules:
+    scene_manager
+hallway_lights:
+  module: hallway_lights
+  class: HallwayLights
+  global_modules:
+    scene_manager
+laundry_room_lights:
+  module: laundry_room_lights
+  class: LaundryRoomLights
+  global_modules:
+    scene_manager
+living_area_lights:
+  module: living_area_lights
+  class: LivingAreaLights
+  global_modules:
+    scene_manager
+mancave_lights:
+  module: mancave_lights
+  class: MancaveLights
   global_modules:
     scene_manager
 office_lights:
@@ -61,9 +96,14 @@ office_lights:
   class: OfficeLights
   global_modules:
     scene_manager
-laundry_room_lights:
-  module: laundry_room_lights
-  class: LaundryRoomLights
+toilet_lights:
+  module: toilet_lights
+  class: ToiletLights
+  global_modules:
+    scene_manager
+outdoor_lights:
+  module: outdoor_lights
+  class: OutdoorLights
   global_modules:
     scene_manager
 
