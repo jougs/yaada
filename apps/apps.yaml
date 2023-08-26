@@ -43,6 +43,10 @@ movie_lights:
 motion_lights:
   module: motion_lights
   class: MotionLights
+power:
+  module: power
+  class: Power
+  telegram_target: !secret telegram_target
 remote_controls:
   module: remote_controls
   class: RemoteControls
