@@ -67,7 +67,7 @@ class Power(hass.Hass):
                 value = "unknown"
                 entity_attrs.update({"value": self.get_state(f"{sensor}_raw", attribute="state")})
             else:
-                value = float(self.get_state(f"{sensor}_raw", attribute="state"))
+                value = self.get_state(f"{sensor}_raw", attribute="state")
             self.set_state(sensor, state=value, attributes=base_attrs|entity_attrs)
 
         if meter_misses_info and not self.notified:
