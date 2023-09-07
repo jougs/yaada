@@ -40,19 +40,21 @@ class OutdoorLights(SceneManager):
             'replaces': [],
             'lights': {
                 "light.front_yard": {"state": "on"},
+                "light.entrance_door_floor": {"state": "on", "brightness": 255},
+                "light.front_porch_floor": {"state": "on", "brightness": 255},
             }
         },
         "backyard": {
             'name': 'back yard',
-            'icon': 'mdi:track-light',
+            'icon': 'mdi:outdoor-lamp',
             'replaces': [],
             'lights': {
                 "light.back_yard": {"state": "on"},
             }
         },        
-        "bedroom_terrace": {
+        "bedroomterrace": {
             'name': 'bedroom terrace',
-            'icon': 'mdi:track-light',
+            'icon': 'mdi:outdoor-lamp',
             'replaces': [],
             'lights': {
                 "light.bedroom_terrace": {"state": "on"},
@@ -65,5 +67,5 @@ class OutdoorLights(SceneManager):
         "guest_room_balcony_door_left_short": "balcony",
         "downstairs_hallway_entrance_door_long": "frontyard",
         "laundry_room_balcony_door_right_short": "backyard",
-        "master_bedroom_balcony_door_top_left_short": "bedroom_terrace",
+        "master_bedroom_balcony_door_top_left_short": "bedroomterrace",
     }
