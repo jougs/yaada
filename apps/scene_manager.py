@@ -53,7 +53,7 @@ class SceneManager(hass.Hass):
         self.scene_stack = ['alloff']
 
         self.listen_state(self.set_ambient, 'sensor.ambient_lights', attribute='state')
-        if self.get_state('sensor.ambient_lights') not in (None, 'off'):
+        if self.get_state('sensor.ambient_lights') not in (None, 'off') and "ambient" not in self.scene_stack:
             self.scene_stack.insert(1, 'ambient')
             attr = {"icon": self.scenes["ambient"]["icon"]}
             self.set_state(self.get_scene_input('ambient'), state='on', attributes=attr)
@@ -64,7 +64,7 @@ class SceneManager(hass.Hass):
         for scene_name, scene_data in self.scenes.items():
             scene_input = self.get_scene_input(scene_name)
             self.scene_inputs.append(scene_input)
-            if self.get_state(scene_input) == 'on':
+            if self.get_state(scene_input) == 'on' and scene_name not in self.scene_stack:
                 self.scene_stack.append(scene_name)
             self.listen_state(self.scene_change, scene_input, attribute='state')
 
