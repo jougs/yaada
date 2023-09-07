@@ -26,6 +26,10 @@ dust_collection:
 hallway_effect:
   module: hallway_effect
   class: HallwayEffect
+hargassner:
+  module: hargassner
+  class: Hargassner
+  hargassner_ip: !secret hargassner_ip
 hdmi_switch:
   module: hdmi_switch
   class: HDMISwitch
