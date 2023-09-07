@@ -20,6 +20,7 @@ covers:
 doorbell:
   module: doorbell
   class: Doorbell
+  telegram_target: !secret telegram_target
 dust_collection:
   module: dust_collection
   class: DustCollection
