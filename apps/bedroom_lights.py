@@ -30,11 +30,12 @@ class BedroomLights(SceneManager):
                 "light.bedroom_floor": {"state": "on", "brightness": 196},
                 "light.bedroom_bedside_window": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
                 "light.bedroom_bedside_door": {"state": "on", "brightness": 196, "xy_color": (0.491, 0.39)},
+                "light.master_bedroom_rubber_tree": {"state": "on"},
             }
         },
         "readingwindow": {
             'name': 'readingwindow',
-            'icon': 'mdi:arrow-down-bold-box-outline',
+            'icon': 'mdi:wall-sconce',
             'replaces': [],
             'lights': {
                 "light.bedroom_bedside_window": {"state": "on", "brightness": 128, "xy_color": (0.491, 0.39)},
@@ -42,7 +43,7 @@ class BedroomLights(SceneManager):
         },
         "readingdoor": {
             'name': 'readingdoor',
-            'icon': 'mdi:arrow-down-bold-box-outline',
+            'icon': 'mdi:wall-sconce',
             'replaces': [],
             'lights': {
                 "light.bedroom_bedside_door": {"state": "on", "brightness": 128, "xy_color": (0.491, 0.39)},
