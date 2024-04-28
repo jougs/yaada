@@ -93,13 +93,20 @@ class Mediabox(hass.Hass):
             }
 
         if payload['event'] == 'playing':
-            track_info = self.spotify.track("spotify:track:" + payload["track_id"])
-            track_name = track_info["name"]
-            artists = " & ".join([artist["name"] for artist in track_info["artists"]])
-            album = track_info["album"]["name"]
+            try:
+                track_info = self.spotify.track(payload["track_id"])
+                track_name = track_info["name"]
+                artists = " & ".join([artist["name"] for artist in track_info["artists"]])
+                #album = track_info["album"]["name"]
+                info = f"{track_name} by {artists}"
+            except:
+                track_info = self.spotify.episode(payload["track_id"], market="DE")
+                track_name = track_info["name"]
+                show = track_info["show"]["name"]
+                info = f"{show} - {track_name}"
             state = {
                 "icon": "mdi:play",
-                "state": f"{track_name} by {artists}",
+                "state": info,
                 "amp": "on"
             }
 
