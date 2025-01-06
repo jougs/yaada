@@ -92,6 +92,10 @@ class Mediabox(hass.Hass):
                 "amp": "off"
             }
 
+        # For information on the different endpoints of the Spotify API, see
+        # https://github.com/spotify/web-api/issues/551#issuecomment-583748908
+        # For the API of the spotipy client, see
+        # https://github.com/spotipy-dev/spotipy/blob/HEAD/spotipy/client.py
         if payload['event'] == 'playing':
             try:
                 track_info = self.spotify.track(payload["track_id"])
