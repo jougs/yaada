@@ -9,7 +9,7 @@ class BathroomFan(hass.Hass):
         self_log = self.log
         self.log = lambda func, msg: self_log(f'{func}: {msg}')
 
-        self.sensor_name = "sensor.uponor_masterbad_humidity"
+        self.sensor_name = "sensor.bathroom_weather_humidity"
 
         self.humidity_stats = deque([], 15)
         self.humidity_mean = 100
