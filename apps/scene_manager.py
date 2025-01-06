@@ -2,9 +2,8 @@ import hassapi as hass
 import json
 
 from random import shuffle
+from pathlib import Path
 from copy import copy
-from os import path
-
 
 class SceneManager(hass.Hass):
 
@@ -81,11 +80,11 @@ class SceneManager(hass.Hass):
 
     def announce_scene_inputs(self):
 
-        data_path = '/srv/homeassistant/data/entities/input_boolean'
+        data_path = Path('/srv/homeassistant/data/entities/input_boolean')
 
         for scene_name, scene_data in self.scenes.items():
             fname = f"scene_{self.unique_id}_{scene_name}.yaml"
-            with open(path.join(data_path, fname), 'w') as file:
+            with open(data_path / fname, 'w') as file:
                 file.write(f"scene_{self.unique_id}_{scene_name}:\n")
                 file.write(f"  name: {self.area} scene {scene_data['name']}\n")
                 file.write(f"  icon: {scene_data['icon']}\n")
@@ -173,7 +172,7 @@ class SceneManager(hass.Hass):
         msg = f'entity={entity}, attribute={attribute}, old={old}, new={new}, kwargs={kwargs}'
         self.log('scene_change()', msg)
 
-        if new['context']['user_id'] is None:
+        if 'context' in new and new['context']['user_id'] is None:
             self.log('scene_change()', 'skipping')
             return
 
