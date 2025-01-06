@@ -90,7 +90,7 @@ class Solar(hass.Hass):
     def update_house_meter_sensors(self, entity, attribute, old, new, kwargs):
 
         ac_power = self.get_state(self.prefix + "ac_power")
-        ac_power = float(ac_power) if ac_power != 'unavailable' else 0
+        ac_power = float(ac_power) if ac_power != 'unavailable' and ac_power is not None else 0
         active_power = self.get_state("sensor.active_power")
         house_power_consumption = "unavailable" if active_power in ("unavailable", "unknown") else int(ac_power + float(active_power))
 
