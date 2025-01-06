@@ -113,15 +113,13 @@ class MaslowRemote():
 
 class SchopfRemote():
     def on(self):
-        self.hass.turn_on("light.barn_main")
+        self.hass.turn_on("input_boolean.scene_barn_main")
     def off(self):
-        self.hass.turn_off("light.barn_main")
+        self.hass.turn_off("input_boolean.scene_barn_main")
     def brightness_move_up(self):
-        self.hass.turn_on("light.barn_chandelier_1")
-        self.hass.turn_on("light.barn_chandelier_2")
+        self.hass.turn_on("input_boolean.scene_outdoor_frontyard")
     def brightness_move_down(self):
-        self.hass.turn_off("light.barn_chandelier_1")
-        self.hass.turn_off("light.barn_chandelier_2")
+        self.hass.turn_off("input_boolean.scene_outdoor_frontyard")
 
 
 class OfficeRemote():
