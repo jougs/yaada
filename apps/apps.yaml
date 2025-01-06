@@ -29,6 +29,7 @@ hargassner:
   module: hargassner
   class: Hargassner
   hargassner_ip: !secret hargassner_ip
+  telegram_target: !secret telegram_target
 hdmi_switch:
   module: hdmi_switch
   class: HDMISwitch
