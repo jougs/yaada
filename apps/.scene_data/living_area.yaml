@@ -1,0 +1,179 @@
+area: living_area
+area_friendly: Living area
+
+all_lights_full_on:
+  dining_room_bar_1:          {state: on, brightness: 255}
+  dining_room_bar_2:          {state: on, brightness: 255}
+  dining_room_bar_3:          {state: on, brightness: 255}
+  dining_room_bar_downlight:  {state: on, brightness: 255}
+  dining_room_dining_table_1: {state: on, brightness: 255}
+  dining_room_dining_table_2: {state: on, brightness: 255}
+  dining_room_dining_table_3: {state: on, brightness: 255}
+  dining_room_dining_table_4: {state: on, brightness: 255}
+  dining_room_dining_table_5: {state: on, brightness: 255}
+  dining_room_dresser:        {state: on}
+  dining_room_fairy_balls:    {state: on}
+  dining_room_fairy_string:   {state: on}
+  dining_room_plant_stand:    {state: on, brightness: 255, xy_color: &white [0.358, 0.346]}
+  kitchen_bar_downlight:      {state: on, brightness: 255}
+  kitchen_downlight:          {state: on, brightness: 255}
+  kitchen_floor_cabinets:     {state: on, brightness: 255}
+  kitchen_hob:                {state: on, brightness: 255}
+  kitchen_wall_cabinet:       {state: on, brightness: 255}
+  living_room_ceiling_east:   {state: on, brightness: 255}
+  living_room_ceiling_west:   {state: on, brightness: 255}
+  living_room_corner_shelf:   {state: on, brightness: 255, xy_color: *white}
+  living_room_fireplace:      {state: on, brightness: 255}
+  living_room_palm_tree:      {state: on}
+  living_room_paper_lamp:     {state: on, brightness: 255, xy_color: *white}
+  living_room_recliner:       {state: on}
+  pantry_downlight:           {state: on, brightness: 255}
+  pantry_shelf:               {state: on, brightness: 255}
+
+scenes:
+  - name: ambient
+    friendly_name: Ambient
+    icon: mdi:weather-night
+    lights:
+      dining_room_bar_downlight:  {state:  on, brightness:  32}
+      dining_room_fairy_balls:    {state:  on}
+      dining_room_fairy_string:   {state:  on}
+      kitchen_bar_downlight:      {state:  on, brightness:  32}
+      kitchen_floor_cabinets:     {state:  on, brightness:  64}
+      kitchen_wall_cabinet:       {state:  on, brightness:  64}
+      living_room_corner_shelf:   {state:  on, brightness:  48, rgb_color: [64, 32, 8]}
+      living_room_fireplace:      {state:  on, brightness:  48}
+      living_room_palm_tree:      {state:  on}
+      pantry_shelf:               {state:  on, brightness:  64}
+  - name: bar
+    friendly_name: Bar
+    replaces: [cooking]
+    icon: mdi:glass-cocktail
+    lights:
+      dining_room_bar_1:          {state:  on, brightness:  10}
+      dining_room_bar_2:          {state:  on, brightness:   8}
+      dining_room_bar_3:          {state:  on, brightness:   6}
+      dining_room_fairy_string:   {state:  on}
+      kitchen_bar_downlight:      {state:  on, brightness:  96}
+      kitchen_floor_cabinets:     {state:  on, brightness: 128}
+      kitchen_wall_cabinet:       {state:  on, brightness: 128}
+      living_room_palm_tree:      {state:  on}
+  - name: chillout
+    friendly_name: Chillout
+    replaces: [livingfull, sofadinner, movies]
+    icon: mdi:sofa
+    lights:
+      dining_room_plant_stand:    {state:  on, brightness:  64, rgb_color: &id003 [128, 96, 0]}
+      kitchen_bar_downlight:      {state:  on, brightness: 112}
+      kitchen_wall_cabinet:       {state:  on, brightness:  64}
+      living_room_ceiling_east:   {state:  on, brightness:  96}
+      living_room_ceiling_west:   {state:  on, brightness:  96}
+      living_room_corner_shelf:   {state:  on, brightness: 128, rgb_color: &id001 [255, 128, 0]}
+      living_room_fireplace:      {state:  on, brightness: 128}
+      living_room_paper_lamp:     {state:  on, brightness:  79,  xy_color: &id004 [0.491, 0.39]}
+      living_room_recliner:       {state:  on}
+  - name: movies
+    friendly_name: Movies
+    replaces: [livingfull, sofadinner, chillout]
+    icon: mdi:movie-open
+    lights:
+      dining_room_bar_1:          {state: off}
+      dining_room_bar_2:          {state: off}
+      dining_room_bar_3:          {state: off}
+      dining_room_bar_downlight:  {state:  on, brightness: 32}
+      dining_room_dining_table_1: {state: off}
+      dining_room_dining_table_2: {state: off}
+      dining_room_dining_table_3: {state: off}
+      dining_room_dining_table_4: {state: off}
+      dining_room_dining_table_5: {state: off}
+      dining_room_dresser:        {state: off}
+      dining_room_plant_stand:    {state:  on, brightness:  64, rgb_color: *id003}
+      kitchen_bar_downlight:      {state:  on, brightness:  32}
+      kitchen_downlight:          {state: off}
+      kitchen_floor_cabinets:     {state:  on, brightness:  32}
+      kitchen_hob:                {state: off}
+      kitchen_wall_cabinet:       {state:  on, brightness:  32}
+      living_room_ceiling_east:   {state:  on, brightness:  64}
+      living_room_ceiling_west:   {state:  on, brightness:  64}
+      living_room_corner_shelf:   {state: off}
+      living_room_fireplace:      {state:  on, brightness:  32}
+      living_room_palm_tree:      {state: off}
+      living_room_paper_lamp:     {state:  on, brightness:  64,  xy_color: *id004}
+      living_room_recliner:       {state: off}
+      pantry_downlight:           {state:  on, brightness:  32}
+      pantry_shelf:               {state:  on, brightness:  32}
+  - name: sofadinner
+    friendly_name: Sofadinner
+    replaces: [livingfull, chillout, movies]
+    icon: mdi:food
+    lights:
+      dining_room_plant_stand:    {state:  on, brightness:  64, rgb_color: *id003}
+      kitchen_bar_downlight:      {state:  on, brightness: 112}
+      kitchen_wall_cabinet:       {state:  on, brightness:  64}
+      living_room_ceiling_east:   {state:  on, brightness: 192}
+      living_room_ceiling_west:   {state:  on, brightness: 192}
+      living_room_corner_shelf:   {state:  on, brightness: 128, rgb_color: *id001}
+      living_room_fireplace:      {state:  on, brightness: 128}
+      living_room_paper_lamp:     {state:  on, brightness:  79,  xy_color: *id004}
+      living_room_recliner:       {state:  on}
+  - name: livingfull
+    friendly_name: Living room bright
+    replaces: [chillout, sofadinner, movies]
+    icon: mdi:sunglasses
+    lights:
+      living_room_ceiling_east:   {state:  on, brightness: 255}
+      living_room_ceiling_west:   {state:  on, brightness: 255}
+      living_room_corner_shelf:   {state:  on, brightness: 255, xy_color: *white}
+      living_room_fireplace:      {state:  on, brightness: 255}
+      living_room_paper_lamp:     {state:  on, brightness: 255, xy_color: *white}
+      living_room_recliner:       {state:  on}
+  - name: dining
+    friendly_name: Dining
+    replaces: [diningfull]
+    icon: mdi:food
+    lights:
+      dining_room_bar_downlight:  {state:  on, brightness: 255}
+      dining_room_dining_table_1: {state:  on, brightness:  64}
+      dining_room_dining_table_2: {state:  on, brightness:  32}
+      dining_room_dining_table_3: {state:  on, brightness:  48}
+      dining_room_dining_table_4: {state:  on, brightness:  64}
+      dining_room_dining_table_5: {state:  on, brightness:  76}
+      dining_room_dresser:        {state:  on}
+      dining_room_plant_stand:    {state:  on, brightness: 255, rgb_color: *id001}      
+  - name: diningfull
+    friendly_name: Dining room bright
+    replaces: [dining]
+    icon: mdi:sunglasses
+    lights:
+      dining_room_bar_downlight:  {state:  on, brightness: 255}
+      dining_room_dining_table_1: {state:  on, brightness: 255}
+      dining_room_dining_table_2: {state:  on, brightness: 255}
+      dining_room_dining_table_3: {state:  on, brightness: 255}
+      dining_room_dining_table_4: {state:  on, brightness: 255}
+      dining_room_dining_table_5: {state:  on, brightness: 255}
+      dining_room_dresser:        {state:  on}
+      dining_room_plant_stand:    {state:  on, brightness: 255, xy_color: *white}
+  - name: cooking
+    friendly_name: Cooking
+    replaces: [bar]
+    icon: mdi:silverware-fork-knife
+    lights:
+      dining_room_bar_1:          {state:  on, brightness: 255}
+      dining_room_bar_2:          {state:  on, brightness: 255}
+      dining_room_bar_3:          {state:  on, brightness: 255}
+      kitchen_bar_downlight:      {state:  on, brightness: 255}
+      kitchen_downlight:          {state:  on, brightness: 255}
+      kitchen_floor_cabinets:     {state:  on, brightness: 255}
+      kitchen_hob:                {state:  on, brightness: 255}
+      kitchen_wall_cabinet:       {state:  on, brightness: 255}
+      pantry_shelf:               {state:  on, brightness:  96}
+
+buttons:
+  kitchen_hallway_door_short: cooking
+  kitchen_hallway_door_long: living_area_all_off
+  kitchen_living_room_door_right_short: cooking
+  kitchen_living_room_door_left_short: bar
+  living_room_chimney_left_short: chillout
+  living_room_chimney_left_long: sofadinner
+  living_room_chimney_right_short: dining
+  living_room_balcony_door_right_short: chillout

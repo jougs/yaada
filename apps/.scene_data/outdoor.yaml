@@ -1,0 +1,52 @@
+area: outdoor
+area_friendly: Outdoor
+
+all_lights_full_on:
+  back_yard:           {state: on}
+  balcony_light_east:  {state: on}
+  balcony_light_south: {state: on}
+  bedroom_terrace:     {state: on}
+  entrance_door_floor: {state: on, brightness: 255}
+  facade_light_north:  {state: on}
+  front_porch_floor:   {state: on, brightness: 255}
+  front_yard:          {state: on}
+
+scenes:
+  - name: ambient
+    friendly_name: Ambient
+    icon: mdi:weather-night
+    lights:
+      entrance_door_floor:   {state: on, brightness:  32}
+      front_porch_floor:     {state: on, brightness:  32}
+  - name: backyard
+    friendly_name: Back yard
+    icon: mdi:outdoor-lamp
+    lights:
+      back_yard:             {state: on}
+  - name: balcony
+    friendly_name: Balcony
+    icon: mdi:outdoor-lamp
+    lights:
+      balcony_light_east:    {state: on}
+      balcony_light_south:   {state: on}
+  - name: bedroomterrace
+    friendly_name: Bedroom terrace
+    icon: mdi:outdoor-lamp
+    lights:
+      bedroom_terrace:       {state: on}
+  - name: frontyard
+    friendly_name: Front yard
+    icon: mdi:track-light
+    lights:
+      entrance_door_floor:   {state: on, brightness: 255}
+      front_porch_floor:     {state: on, brightness: 255}
+      front_yard:            {state: on}
+
+buttons:
+  barn_workshop_door_long: frontyard
+  downstairs_hallway_entrance_door_long: frontyard
+  furnace_room_backyard_door_left_short: backyard
+  guest_room_balcony_door_left_short: balcony
+  laundry_room_balcony_door_right_short: backyard
+  living_room_balcony_door_left_short: balcony
+  master_bedroom_balcony_door_top_left_short: bedroomterrace

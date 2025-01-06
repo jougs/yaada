@@ -1,0 +1,17 @@
+area: laundry_room
+area_friendly: Laundry Room
+
+all_lights_full_on:
+  laundry_room_ceiling: {state: on}
+
+scenes:
+  - name: laundry_main
+    friendly_name: Laundry main
+    icon: mdi:lightbulb
+    lights:
+      laundry_room_ceiling: {state: on}
+
+buttons:
+  laundry_room_hallway_door_short: laundry_main
+  laundry_room_bathroom_door_top_short: laundry_main
+  laundry_room_balcony_door_left_short: laundry_main

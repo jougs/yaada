@@ -1,0 +1,21 @@
+area: guest_bathroom
+area_friendly: Guest bathroom
+
+all_lights_full_on:
+  guest_bathroom_ceiling:  {state: on, brightness: 255}
+  guest_bathroom_mirror:   {state: on, brightness: 255}
+  guest_bathroom_recess:   {state: on, brightness: 255}
+  guest_bathroom_skylight: {state: on, brightness: 255}
+
+scenes:
+  - name: guest_bathroom_main
+    friendly_name: Guest bathroom main
+    icon: mdi:shower
+    lights:
+      guest_bathroom_ceiling:  {state: on, brightness: 255}
+      guest_bathroom_mirror:   {state: on, brightness: 255}
+      guest_bathroom_recess:   {state: on, brightness:  96}
+      guest_bathroom_skylight: {state: on, brightness:  96}
+
+buttons:
+  guest_room_guest_bathroom_door_short: shower

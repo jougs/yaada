@@ -1,0 +1,15 @@
+area: office
+area_friendly: Office
+
+all_lights_full_on:
+  office_ceiling: {state: on}
+
+scenes:
+  - name: office_main:
+    friendly_name: Office Main
+    icon: mdi:lightbulb
+    lights:
+      office_ceiling: {state: on}
+
+buttons:
+  office_hallway_door_short: main

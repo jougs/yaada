@@ -1,0 +1,53 @@
+area: master_bathroom
+area_friendly: Master bathroom
+
+all_lights_full_on:
+  bathroom_bath_tub:            {state:  on, brightness: 255}
+  bathroom_below_vanity:        {state:  on, brightness: 255}
+  bathroom_mirror:              {state:  on, brightness: 255}
+  bathroom_shower:              {state:  on, brightness: 255}
+  bathroom_shower_recess:       {state:  on, brightness: 255}
+  bathroom_throne:              {state:  on, brightness: 255}
+  bathroom_vanity:              {state:  on, brightness: 255}
+  bathroom_vanity_recess_left:  {state:  on, brightness: 255}
+  bathroom_vanity_recess_right: {state:  on, brightness: 255}
+
+scenes:
+  - name: ambient
+    friendly_name: Ambient
+    icon: mdi:weather-night
+    lights:
+      bathroom_below_vanity:   {state:  on, brightness: 128}
+      bathroom_shower_recess:  {state:  on, brightness: 128}
+      bedroom_floor:           {state:  on, brightness:  64}
+      master_bedroom_gift_box: {state:  on}
+  - name: bathroom_bright
+    friendly_name: Bathroom bright
+    replaces: [bathroom_main]
+    icon: mdi:sunglasses
+    lights:
+      bathroom_bath_tub:      {state:  on, brightness: 128}
+      bathroom_mirror:        {state:  on, brightness: 255}
+      bathroom_shower:        {state:  on, brightness: 255}
+      bathroom_throne:        {state:  on, brightness: 255}
+      bathroom_vanity:        {state:  on, brightness: 255}
+  - name: bathroom_main
+    friendly_name: Bathroom main
+    replaces: [bathroom_bright]
+    icon: mdi:lightbulb
+    lights:
+      bathroom_bath_tub:      {state:  on, brightness:  64}
+      bathroom_mirror:        {state:  on, brightness:  32}
+      bathroom_shower:        {state:  on, brightness:  64}
+      bathroom_throne:        {state:  on, brightness: 128}
+      bathroom_vanity:        {state:  on, brightness: 128}
+
+buttons:
+  laundry_room_bathroom_door_bottom_short:
+    turn_on: bathroom_main
+    turn_off: [bathroom_bright, bathroom_main]
+  master_bathroom_bedroom_door_short:
+    turn_on: bathroom_main
+    turn_off: [bathroom_bright, bathroom_main]
+  master_bathroom_vanity_short:
+    toggle: [bathroom_bright, bathroom_main]

@@ -1,0 +1,15 @@
+area: barn
+area_friendly: Barn
+
+all_lights_full_on:
+  barn_main: {state: on}
+
+scenes:
+  - name: barn_main
+    friendly_name: Barn main
+    icon: mdi:barn
+    lights:
+      barn_main: {state: on}
+
+buttons:
+  barn_workshop_door_short: barn_main

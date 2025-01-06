@@ -1,0 +1,17 @@
+area: guest_room
+area_friendly: Guest room
+
+all_lights_full_on:
+  guest_room_ceiling: {state: on}
+
+scenes:
+  - name: guest_room_main:
+    friendly_name: Guest room main
+    icon: mdi:lightbulb
+    lights:
+      guest_room_ceiling: {state: on}
+
+buttons:
+  guest_room_hallway_door_short: guest_room_main
+  guest_room_back_wall_short: guest_room_main
+  guest_room_balcony_door_right_short: guest_room_main

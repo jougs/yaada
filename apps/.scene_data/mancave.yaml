@@ -1,0 +1,33 @@
+area: mancave
+area_friendly: Mancave
+
+all_lights_full_on:
+  mancave_base_camp:          {state: on, brightness: 255}
+  mancave_boulder:            {state: on, brightness: 255}
+  mancave_ceiling_long_wall:  {state: on, brightness: 255}
+  mancave_ceiling_short_wall: {state: on, brightness: 255}
+  mancave_corner_left:        {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  mancave_corner_right:       {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  mancave_table:              {state: on, brightness: 255}
+
+scenes:
+  - name: climbing
+    friendly_name: Climbing
+    icon: mdi:carabiner
+    lights:
+      mancave_ceiling_long_wall:  {state: on, brightness: 255}
+      mancave_ceiling_short_wall: {state: on, brightness: 255}
+      mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 0, 0, 255]}
+  - name: rehearsal
+    friendly_name: Rehearsal
+    icon: mdi:guitar-electric
+    lights:
+      mancave_corner_left:        {state: on, brightness: 255, rgbw_color: [0, 0, 255, 0]}
+      mancave_corner_right:       {state: on, brightness: 255, rgbw_color: [0, 255, 0, 0]}
+      mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 0, 0, 0]}
+      mancave_table:              {state: on, brightness:  72}
+
+buttons:
+  mancave_hallway_door_right_long: climbing
+  mancave_hallway_door_right_short: rehearsal

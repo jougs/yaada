@@ -1,0 +1,23 @@
+area: toilet
+area_friendly: Toilet
+
+all_lights_full_on:
+  toilet_mirror: {state: on, brightness: 255}
+  toilet_ledge:  {state: on, brightness: 255}
+
+scenes:
+  - name: ambient
+    friendly_name: Ambient
+    icon: mdi:weather-night
+    lights:
+      toilet_mirror: {state: on, brightness:  64}
+
+  - name: toilet_main
+    friendly_name: Toilet main
+    icon: mdi:lightbulb
+    lights:
+      toilet_mirror: {state: on, brightness: 255}
+      toilet_ledge:  {state: on, brightness: 255}
+
+buttons:
+  toilet_short: toilet_main

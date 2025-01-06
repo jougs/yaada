@@ -1,5 +1,3 @@
-global_modules:
-  - scene_manager
 
 ambient_lights:
   module: ambient_lights
@@ -55,66 +53,14 @@ power:
 remote_controls:
   module: remote_controls
   class: RemoteControls
+scene_manager:
+  module: scene_manager
+  class: SceneManager
+  scene_data_dir: "/srv/appdaemon/data/apps/.scene_data"
+  scene_input_dir: "/srv/homeassistant/data/entities/input_boolean/"
 solar:
   module: solar
   class: Solar
-
-
-bathroom_lights:
-  module: bathroom_lights
-  class: BathroomLights
-  global_modules:
-    scene_manager
-bedroom_lights:
-  module: bedroom_lights
-  class: BedroomLights
-  global_modules:
-    scene_manager
-furnace_room_lights:
-  module: furnace_room_lights
-  class: FurnaceRoomLights
-  global_modules:
-    scene_manager
-guest_bathroom_lights:
-  module: guest_bathroom_lights
-  class: GuestBathroomLights
-  global_modules:
-    scene_manager
-hallway_lights:
-  module: hallway_lights
-  class: HallwayLights
-  global_modules:
-    scene_manager
-laundry_room_lights:
-  module: laundry_room_lights
-  class: LaundryRoomLights
-  global_modules:
-    scene_manager
-living_area_lights:
-  module: living_area_lights
-  class: LivingAreaLights
-  global_modules:
-    scene_manager
-mancave_lights:
-  module: mancave_lights
-  class: MancaveLights
-  global_modules:
-    scene_manager
-office_lights:
-  module: office_lights
-  class: OfficeLights
-  global_modules:
-    scene_manager
-toilet_lights:
-  module: toilet_lights
-  class: ToiletLights
-  global_modules:
-    scene_manager
-outdoor_lights:
-  module: outdoor_lights
-  class: OutdoorLights
-  global_modules:
-    scene_manager
 
 #tester:
 #  module: tester

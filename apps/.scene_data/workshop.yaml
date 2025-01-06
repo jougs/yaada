@@ -1,0 +1,22 @@
+area: workshop
+area_friendly: Workshop
+
+all_lights_full_on:
+  workshop_walkthrough: {state: on}
+  workshop_bright: {state: on}
+
+scenes:
+  - name: workshop_main:
+    friendly_name: Workshop main
+    icon: mdi:lightbulb
+    lights:
+      workshop_walkthrough: {state: on}
+  - name: workshop_bright:
+    friendly_name: Workshop bright
+    icon: mdi:account-hard-hat
+    lights:
+      workshop_bright:      {state: on}
+
+buttons:
+  workshop_light_short: workshop_main
+  workshop_light_long: workshop_bright
