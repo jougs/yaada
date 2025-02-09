@@ -17,37 +17,67 @@ scenes:
     friendly_name: Ambient
     icon: mdi:weather-night
     lights:
-      bathroom_below_vanity:   {state:  on, brightness: 128}
-      bathroom_shower_recess:  {state:  on, brightness: 128}
-      bedroom_floor:           {state:  on, brightness:  64}
-      master_bedroom_gift_box: {state:  on}
-  - name: bathroom_bright
-    friendly_name: Bathroom bright
-    replaces: [bathroom_main]
-    icon: mdi:sunglasses
+      bathroom_below_vanity:        {state:  on, brightness: 128}
+      bathroom_shower_recess:       {state:  on, brightness: 128}
+      bedroom_floor:                {state:  on, brightness:  64}
+      master_bedroom_gift_box:      {state:  on}
+  - name: bathroom_vanity
+    friendly_name: Bathroom vanity
+    replaces: [bathroom_throne, bathroom_shower, master_bathroom_all_on]
+    icon: mdi:mirror-rectangle
     lights:
-      bathroom_bath_tub:      {state:  on, brightness: 128}
-      bathroom_mirror:        {state:  on, brightness: 255}
-      bathroom_shower:        {state:  on, brightness: 255}
-      bathroom_throne:        {state:  on, brightness: 255}
-      bathroom_vanity:        {state:  on, brightness: 255}
-  - name: bathroom_main
-    friendly_name: Bathroom main
-    replaces: [bathroom_bright]
-    icon: mdi:lightbulb
+      bathroom_bath_tub:            {state:  on, brightness: 32}
+      bathroom_mirror:              {state:  on, brightness: 255}
+      bathroom_shower:              {state:  on, brightness: 32}
+      bathroom_throne:              {state:  on, brightness: 128}
+      bathroom_vanity:              {state:  on, brightness: 255}
+  - name: bathroom_shower
+    friendly_name: Bathroom shower
+    replaces: [bathroom_throne, bathroom_vanity, master_bathroom_all_on]
+    icon: mdi:shower-head
     lights:
-      bathroom_bath_tub:      {state:  on, brightness:  64}
-      bathroom_mirror:        {state:  on, brightness:  32}
-      bathroom_shower:        {state:  on, brightness:  64}
-      bathroom_throne:        {state:  on, brightness: 128}
-      bathroom_vanity:        {state:  on, brightness: 128}
+      bathroom_bath_tub:            {state:  on, brightness:  32}
+      bathroom_mirror:              {state:  on, brightness:  64}
+      bathroom_shower:              {state:  on, brightness: 255}
+      bathroom_shower_recess:       {state:  on, brightness: 128}
+      bathroom_throne:              {state:  on, brightness: 128}
+      bathroom_vanity:              {state:  on, brightness:  64}
+  - name: bathroom_vanity_recess_left
+    friendly_name: Bathroom vanity recess left
+    icon: mdi:compare
+    depends_any: [bathroom_throne, bathroom_vanity, bathroom_shower]
+    lights:
+      bathroom_vanity_recess_left:  {state:  on, brightness: 255}
+  - name: bathroom_vanity_recess_right
+    friendly_name: Bathroom vanity recess right
+    icon: mdi:compare
+    depends_any: [bathroom_throne, bathroom_vanity, bathroom_shower]
+    lights:
+      bathroom_vanity_recess_right:  {state:  on, brightness: 255}
+  - name: bathroom_throne
+    friendly_name: Bathroom throne
+    replaces: [bathroom_shower, bathroom_vanity, master_bathroom_all_on]
+    icon: mdi:toilet
+    lights:
+      bathroom_bath_tub:            {state:  on, brightness:  32}
+      bathroom_mirror:              {state:  on, brightness:  32}
+      bathroom_shower:              {state:  on, brightness:  32}
+      bathroom_throne:              {state:  on, brightness: 196}
+      bathroom_vanity:              {state:  on, brightness:  64}
+  - name: master_bathroom_all_on
+    replaces: [bathroom_throne, bathroom_shower, bathroom_vanity]
 
 buttons:
   laundry_room_bathroom_door_bottom_short:
-    turn_on: bathroom_main
-    turn_off: [bathroom_bright, bathroom_main]
+    turn_on: bathroom_throne
+    turn_off: [bathroom_shower, bathroom_throne, bathroom_vanity, master_bathroom_all_on]
   master_bathroom_bedroom_door_short:
-    turn_on: bathroom_main
-    turn_off: [bathroom_bright, bathroom_main]
+    turn_on: bathroom_throne
+    turn_off: [bathroom_shower, bathroom_throne, bathroom_vanity, master_bathroom_all_on]
+  master_bathroom_bedroom_door_long: master_bathroom_all_on
   master_bathroom_vanity_short:
-    toggle: [bathroom_bright, bathroom_main]
+    cycle: [bathroom_vanity, bathroom_shower]
+
+switches:
+  bathroom_vanity_recess_left: bathroom_vanity_recess_left
+  bathroom_vanity_recess_right: bathroom_vanity_recess_right
