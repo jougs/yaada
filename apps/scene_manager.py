@@ -1,7 +1,7 @@
 
 import json
 
-from copy import copy
+from copy import copy, deepcopy
 from pathlib import Path
 from random import shuffle
 from collections import OrderedDict
@@ -18,20 +18,27 @@ yaml = YAML(typ='safe')
 class LightArea:
 
     def __init__(self, parent, data, dirs):
-
-
-        for func in ("log", "get_state", "set_state", "turn_off", "turn_on"):
+        for func in ("log", "get_state", "turn_off", "turn_on"):
             setattr(self, func, getattr(parent, func))
 
         self.dirs = dirs
 
-        self.area = data["area"]
-        self.lights = data["all_lights_full_on"]
-        self.buttons = data["buttons"]
+        data["lights"] = data.pop("all_lights_full_on")
+
+        for field in ("area", "lights", "buttons", "switches"):
+            if field in data:
+                setattr(self, field, data[field])
+            else:
+                setattr(self, field, {})
+
+        self.ambient_name = self.area + "_ambient"
         self.prepare_scenes(data)
 
-        if "ambient" in self.scenes:
+        if self.ambient_name in self.scenes:
             parent.listen_state(self.set_ambient, 'sensor.ambient_lights', attribute='state')
+
+        for switch in self.switches:
+            parent.listen_state(self.switch_action, f'binary_sensor.{switch}', attribute='state')
 
         parent.listen_event(self.button_press, 'MQTT_MESSAGE', topic='input', namespace='mqtt')
 
@@ -56,18 +63,21 @@ class LightArea:
 
         def add_auto_scene(scene_name, scene_state, scene_label, scene_lights):
             yaml_fname = self.dirs["scene_data"] / f"all_{scene_name}.yaml"
-            self.scenes[f"{self.area}_all_{scene_name}"] = yaml.load(yaml_fname) | {
+            scene_name = f"{self.area}_all_{scene_name}"
+            scene_data = yaml.load(yaml_fname) | {
                 "state": scene_state,
                 "friendly_name": f"{area_friendly} {scene_label}",
                 "lights": scene_lights,
             }
+            if scene_name in self.scenes:
+                scene_data |= self.scenes[scene_name]
+            self.scenes[scene_name] = scene_data
 
         self.scenes = OrderedDict()
         for scene in data["scenes"][::-1]:
             self.scenes[scene.pop("name")] = scene | {"state": "off"}
 
         if "ambient" in self.scenes:
-            self.ambient_name = self.area + "_ambient"
             self.scenes[self.ambient_name] = self.scenes.pop("ambient")
             self.scenes[self.ambient_name]["friendly_name"] = f"{area_friendly} Ambient"
             if self.get_state('sensor.ambient_lights') not in (None, 'off'):
@@ -83,13 +93,14 @@ class LightArea:
         off_lights = {light: {'state': 'off'} for light in self.lights.keys()}
         add_auto_scene("off", "on", "0%", off_lights)
 
+        self.scenes.move_to_end(f"{self.area}_all_off", last=True)
         self.scenes.move_to_end(f"{self.area}_all_on", last=False)
 
 
     def get_scene_input(self, scene_name):
         return f"input_boolean.scene_{scene_name}"
 
-    
+
     def announce_scene_inputs(self):
 
         self.scene_names = {}
@@ -101,47 +112,83 @@ class LightArea:
                 file.write(f"  name: \"{scene_data['friendly_name']}\"\n")
                 file.write(f"  icon: \"{scene_data['icon']}\"\n")
             self.scene_names["input_boolean." + entity_id] = scene_name
-        self.log('announce_scene_inputs()', " ".join([
-            f"input_boolean entity configurations have been (re-)written.",
-            "You may want to restart Home Assistant or reload YAML files.",
-        ]))
+        msg = "Home Assistant scene configurations have been (re-)written. Please reload!"
+        self.log('announce_scene_inputs()', "msg")
 
 
     def set_ambient(self, entity, attribute, old, new, kwargs):
-        '''
-        '''
+        """Callback to enable/disable ambient lights."""
 
         msg = f'entity={entity}, attribute={attribute}, old={old}, new={new}, kwargs={kwargs}'
         self.log('set_ambient()', msg)
-        self.set_scene_state(self.ambient_name, new, True)
+        self.set_scene_state(self.ambient_name, new)
+
+
+    def switch_action(self, entity, attribute, old, new, kwargs):
+        """Handle switches with on/off characteristics."""
+
+        msg = f'entity={entity}, attribute={attribute}, old={old}, new={new}, kwargs={kwargs}'
+        self.log('switch_action()', msg)
+
+        switch_data = self.switches[entity[14:]]
+        toggle_map = {"on": "off", "off": "on"}
+
+        if isinstance(switch_data, str):
+            self.set_scene_state(switch_data, new)
+            return
+
+        if "inverted" in switch_data:
+            new = toggle_map[new]
+
+        self.set_scene_state(scene_data["scene"], new)
 
 
     def button_press(self, event_name, data, kwargs):
         """Handle buttons and wall switches.
 
-        Button definitions in the YAML file can be of two forms. In
-        the simple case, an MQTT topic is mapped to a scene, which
-        will be toggled when the corresponding button is pressed. An
-        example of this form might look like this:
+        Button action declarations under the key `buttons` in the YAML
+        file can be one of several possible forms.
 
-        ```yaml
-        bathroom_hallway_door_short: bathroom_main
-        ```
+        - *Toggle button*: In the simple case, one MQTT topic is
+          mapped to one scene name. If the button is pressed, the
+          state of the given scene will be toggled. An example for
+          this form might look like this:
 
-        In addition to specifying just a scene to toggle, the second
-        form enables the implementation of wall switches that turn on
-        their designated scene, but also turn *off* additional scenes
-        that might in a certain area. This form is useful for
-        scenarios in which alternative scenes can be activated from
-        within the area, that all should be switched off with a
-        central switch when leaving the area. An example definition of
-        such a button might look like this:
+          ```yaml
+          bathroom_hallway_door_short: bathroom_main
+          ```
 
-        ```yaml
-        bathroom_hallway_door_short:
-          turn_on: bathroom_main
-          turn_off: [bathroom_main, bathroom_bright]
-        ```
+        - *Toggle button with multi-off function*: In addition to a
+          single scene to toggle, this form of declaration allows to
+          specify a number of scenes to turn *off*, should they be
+          on. This form is useful for scenarios in which alternative
+          scenes can be active within the area, all of which should be
+          switched off with a central switch, e.g., when leaving the
+          area. An example definition of such a button might look like
+          this:
+
+          ```yaml
+          bathroom_hallway_door_short:
+            turn_on: bathroom_main
+            turn_off: [bathroom_main, bathroom_vanity]
+          ```
+
+        - *Cycle button*: This declaration form takes a list of scenes
+           through which it cycles on consecutive button presses. If
+           none of the specified scenes is on upon button presses,
+           this specification will turn the first in the list on. This
+           declaration form can be useful for buttons inside an area,
+           which has different scenes. **Please note** that this form
+           of declaration relies on a *replaces* specification in the
+           given scenes that makes sure that only one of the scenes
+           can be active at any given time. An example might look like
+           this:
+
+          ```yaml
+          bathroom_vanity_short:
+            cycle: [bathroom_vanity, bathroom_main]
+          ```
+
         """
 
         if (button := data['payload']) not in self.buttons:
@@ -150,32 +197,34 @@ class LightArea:
         msg = f'event_name={event_name}, data={data}, kwargs={kwargs}'
         self.log('button_press()', msg)
 
-        a, b = "on", "off"
-        toggle_map = {a:b, b:a}
-
         button_data = self.buttons[button]
+        toggle_map = {"on": "off", "off": "on"}
+
         if isinstance(button_data, str):
             new_state = toggle_map[self.scenes[button_data]["state"]]
-            self.set_scene_state(button_data, new_state, True)
+            self.set_scene_state(button_data, new_state)
             return
 
-        if "toggle" in button_data:
-            on_scenes = [s for s in button_data["toggle"] if self.scenes[s]["state"] == "on"]
-            if not any(on_scenes):
-                self.set_scene_state(button_data["toggle"][0], "on", True)
+        if "cycle" in button_data:
+            scenes = button_data["cycle"]
+            on_scenes = [s for s in scenes if self.scenes[s]["state"] == "on"]
+            if on_scenes:
+                next_idx = (scenes.index(on_scenes[0]) + 1) % len(scenes)
+                self.set_scene_state(scenes[next_idx], "on")
             else:
-                scene_name = [s for s in button_data["toggle"] if s not in on_scenes][0]
-                self.set_scene_state(scene_name, "on", True)
-        else:
-            on_scenes = [s for s in button_data["turn_off"] if self.scenes[s]["state"] == "on"]
-            if any(on_scenes):
+                self.set_scene_state(scenes[0], "on")
+
+        if "turn_off" in button_data:
+            scenes = button_data["turn_off"]
+            on_scenes = [s for s in scenes if self.scenes[s]["state"] == "on"]
+            if on_scenes:
                 for scene_name in on_scenes:
-                    self.set_scene_state(scene_name, "off", True)
+                    self.set_scene_state(scene_name, "off")
             else:
-                self.set_scene_state(button_data["turn_on"], "on", True)
+                self.set_scene_state(button_data["turn_on"], "on")
 
 
-    def set_scene_state(self, scene_name, new_state, set_input):
+    def set_scene_state(self, scene_name, new_state, set_input=True):
         """Set a scene's state to 'on' or 'off'.
 
         If `set_input` is True, this function also sets the state of
@@ -234,7 +283,7 @@ class LightArea:
             return
 
         scene_name = self.scene_names[entity]
-        self.set_scene_state(scene_name, new["state"], False)
+        self.set_scene_state(scene_name, new["state"], set_input=False)
 
 
     def show(self):
@@ -249,7 +298,14 @@ class LightArea:
         composite_scene = {}
         for light in self.lights.keys():
             for scene_name, scene_data in self.scenes.items():
-                if scene_data["state"] == "on" and light in scene_data['lights']:
+                light_in_scene = light in scene_data['lights']
+                on = scene_data["state"] == "on"
+                deps_ok = True
+                if "depends_any" in scene_data:
+                    deps_ok &= any(self.scenes[s]["state"] == "on" for s in scene_data["depends_any"])
+                if "depends_all" in scene_data:
+                    deps_ok &= all(self.scenes[s]["state"] == "on" for s in scene_data["depends_all"])
+                if light_in_scene and on and deps_ok:
                     composite_scene[light] = copy(scene_data['lights'][light])
                     break
 
