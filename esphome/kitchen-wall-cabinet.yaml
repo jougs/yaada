@@ -1,0 +1,54 @@
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Kitchen"
+      esp_name: "kitchen-wall-cabinet"
+      friendly_name: "Kitchen wall cabinet"
+      static_ip: 10.5.5.67
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen wall cabinet 1"
+      id: kitchen_wall_cabinet_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen wall cabinet 2"
+      id: kitchen_wall_cabinet_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 1
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen wall cabinet downlight"
+      iohub_id: pca9685_0
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen hob"
+      iohub_id: pca9685_0
+      channel: 3
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 1525.88
+  id: 'pca9685_0'
+  address: 0x40
+
+light:
+  - platform: partition
+    name: "Kitchen wall cabinet"
+    segments:
+      - single_light_id: kitchen_wall_cabinet_1
+      - single_light_id: kitchen_wall_cabinet_2

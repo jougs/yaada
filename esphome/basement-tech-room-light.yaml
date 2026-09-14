@@ -1,0 +1,291 @@
+
+esphome:
+  compile_process_limit: 1
+
+wifi:
+  ssid: m4_iot_ug
+
+packages:
+  device-base: !include
+    file: common/esp32-base.yaml
+    vars:
+      area: "Basement"
+      esp_name: "basement-tech-room-light"
+      friendly_name: "Basement tech room light"
+      static_ip: 10.5.5.73
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom mirror 1"
+      id: bathroom_mirror_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 0
+
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom mirror 2"
+      id: bathroom_mirror_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 1
+
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom vanity 1"
+      id: bathroom_vanity_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom vanity 2"
+      id: bathroom_vanity_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 3
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom vanity 3"
+      id: bathroom_vanity_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 4
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom throne 1"
+      id: bathroom_throne_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 5
+  light_6: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom throne 2"
+      id: bathroom_throne_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 6
+  light_7: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom throne 3"
+      id: bathroom_throne_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 7
+  light_8: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom vanity recess left"
+      iohub_id: pca9685_0
+      channel: 8
+  light_9: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom vanity recess right"
+      iohub_id: pca9685_0
+      channel: 9
+  light_10: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower recess"
+      iohub_id: pca9685_0
+      channel: 10
+  light_11: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bedroom floor 1"
+      id: bedroom_floor_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 11
+  light_12: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bedroom floor 2"
+      id: bedroom_floor_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 12
+  light_13: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bedroom floor 3"
+      id: bedroom_floor_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 13
+  light_14: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bedroom floor 4"
+      id: bedroom_floor_4
+      iohub_id: pca9685_0
+      internal: true
+      channel: 14
+  light_15: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bedroom floor 5"
+      id: bedroom_floor_5
+      iohub_id: pca9685_0
+      internal: true
+      channel: 15
+  light_16: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 1"
+      id: bathroom_bath_tub_1
+      iohub_id: pca9685_1
+      internal: true
+      channel: 0
+  light_17: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 2"
+      id: bathroom_bath_tub_2
+      iohub_id: pca9685_1
+      internal: true
+      channel: 1
+  light_18: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 3"
+      id: bathroom_bath_tub_3
+      iohub_id: pca9685_1
+      internal: true
+      channel: 2
+  light_19: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 4"
+      id: bathroom_bath_tub_4
+      iohub_id: pca9685_1
+      internal: true
+      channel: 3
+  light_20: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 5"
+      id: bathroom_bath_tub_5
+      iohub_id: pca9685_1
+      internal: true
+      channel: 4
+  light_21: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom bath tub 6"
+      id: bathroom_bath_tub_6
+      iohub_id: pca9685_1
+      internal: true
+      channel: 5
+  light_22: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower 1"
+      id: bathroom_shower_1
+      iohub_id: pca9685_1
+      internal: true
+      channel: 6
+  light_23: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower 2"
+      id: bathroom_shower_2
+      iohub_id: pca9685_1
+      internal: true
+      channel: 7
+  light_24: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower 3"
+      id: bathroom_shower_3
+      iohub_id: pca9685_1
+      internal: true
+      channel: 8
+  light_25: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower 4"
+      id: bathroom_shower_4
+      iohub_id: pca9685_1
+      internal: true
+      channel: 9
+  light_26: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom shower 5"
+      id: bathroom_shower_5
+      iohub_id: pca9685_1
+      internal: true
+      channel: 10
+  light_27: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Master bathroom below vanity"
+      iohub_id: pca9685_1
+      channel: 11
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  - id: 'pca9685_0'
+    address: 0x40
+    frequency: 1525.88
+  - id: 'pca9685_1'
+    address: 0x41
+    frequency: 1525.88
+
+light:
+  - platform: partition
+    name: "Master bathroom mirror"
+    segments:
+      - single_light_id: bathroom_mirror_1
+      - single_light_id: bathroom_mirror_2
+  - platform: partition
+    name: "Master bathroom vanity"
+    segments:
+      - single_light_id: bathroom_vanity_1
+      - single_light_id: bathroom_vanity_2
+      - single_light_id: bathroom_vanity_3
+  - platform: partition
+    name: "Master bathroom throne"
+    segments:
+      - single_light_id: bathroom_throne_1
+      - single_light_id: bathroom_throne_2
+      - single_light_id: bathroom_throne_3
+  - platform: partition
+    name: "Master bedroom floor"
+    segments:
+      - single_light_id: bedroom_floor_1
+      - single_light_id: bedroom_floor_2
+      - single_light_id: bedroom_floor_3
+      - single_light_id: bedroom_floor_4
+      - single_light_id: bedroom_floor_5
+  - platform: partition
+    name: "Master bathroom bath tub"
+    segments:
+      - single_light_id: bathroom_bath_tub_1
+      - single_light_id: bathroom_bath_tub_2
+      - single_light_id: bathroom_bath_tub_3
+      - single_light_id: bathroom_bath_tub_4
+      - single_light_id: bathroom_bath_tub_5
+      - single_light_id: bathroom_bath_tub_6
+  - platform: partition
+    name: "Master bathroom shower"
+    segments:
+      - single_light_id: bathroom_shower_1
+      - single_light_id: bathroom_shower_2
+      - single_light_id: bathroom_shower_3
+      - single_light_id: bathroom_shower_4
+      - single_light_id: bathroom_shower_5

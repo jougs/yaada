@@ -1,0 +1,87 @@
+wifi:
+  ssid: "m4_iot_shop"
+
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Utility wing"
+      esp_name: "furnace-room-light"
+      friendly_name: "Furnace room light"
+      static_ip: 10.5.5.77
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room sink ceiling"
+      iohub_id: pca9685_0
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room below sink"
+      iohub_id: pca9685_0
+      channel: 1
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room mixing valves"
+      iohub_id: pca9685_0
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room buffer tank"
+      iohub_id: pca9685_0
+      channel: 3
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room wood chips top"
+      iohub_id: pca9685_0
+      channel: 4
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room wood chips right"
+      iohub_id: pca9685_0
+      channel: 5
+  light_6: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room wood chips left"
+      iohub_id: pca9685_0
+      channel: 6
+  light_7: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room wood chips bottom"
+      iohub_id: pca9685_0
+      channel: 7
+  light_8: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Furnace room belt grinder"
+      iohub_id: pca9685_0
+      channel: 8
+
+switch:
+  - platform: gpio
+    pin: 12
+    name: "Buffer immersion heater 1"
+  - platform: gpio
+    pin: 13
+    name: "Buffer immersion heater 2"
+  - platform: gpio
+    pin: 15
+    name: "Buffer immersion heater 3"
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 1525.88
+  id: 'pca9685_0'
+  address: 0x40

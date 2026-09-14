@@ -1,0 +1,8 @@
+mqtt:
+  broker: 10.5.5.1
+  discovery: false
+  username: esphome
+  password: PesphomeW
+  #log_topic: null
+  #idf_send_async: true  # only available on ESP32
+  keepalive: 2s

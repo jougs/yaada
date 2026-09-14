@@ -1,0 +1,200 @@
+esphome:
+  name: routerlift
+  friendly_name: Router lift
+  on_boot:
+    then:
+      - output.turn_off: sleep_pin
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "7iXP146u7Qjg983qlbShWmsOjOFhwYnFHIdya5innrI="
+
+ota:
+  password: "acbf24f5b8314831f4f1185262cb912b"
+
+wifi:
+  ssid: treppenhaus
+  password: X07614760498
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Routerlift Fallback Hotspot"
+    password: !secret wifi_password
+
+captive_portal:
+
+
+globals:
+  - id: home_offset
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+uart:
+  id: uart_tx
+  tx_pin: GPIO1
+  baud_rate: 115200
+
+# Stepper motor
+stepper:
+  - platform: a4988
+    id: router_lift
+    step_pin: GPIO4
+    dir_pin: GPIO2
+#    sleep_pin: GPIO33
+    max_speed: 10
+
+# Potentiometer raw to speed level
+sensor:
+  - platform: adc
+    pin: GPIO35
+    id: speed
+    internal: True
+    attenuation: 11db
+    update_interval: 500ms
+    filters:  # raw values: 0.14 <= x <= 3.15
+      lambda: return 300 + (x - 0.14) * 133.333;
+#      lambda: return 0; //pow(x / 3.0, 1.0 / 3.0) * 133.333;
+
+# Buttons
+binary_sensor:
+  - platform: gpio
+    id: z_up_button
+    name: "Z Up"
+    pin:
+      number: GPIO12
+      inverted: True
+      mode:
+        input: True
+        pullup: True
+    filters:
+     - delayed_on: 25ms
+    on_press:
+      then:
+        - lambda: |-
+            id(router_lift).set_max_speed(id(speed).state);
+            id(router_lift).set_target(id(router_lift).current_position + 100000);  // effectively "go up until stopped"
+    on_release:
+      then:
+        - lambda: |-
+            id(router_lift).set_max_speed(10);
+            id(router_lift).set_target(id(router_lift).current_position);
+
+  - platform: gpio
+    name: "Z Down"
+    id: z_down_button
+    pin:
+      number: GPIO13
+      inverted: True
+      mode:
+        input: True
+        pullup: True
+    filters:
+     - delayed_on: 25ms
+    on_press:
+      then:
+        - script.execute: start
+        - lambda: |-
+            id(router_lift).set_max_speed(id(speed).state);
+            id(router_lift).set_target(id(router_lift).current_position - 100000);  // "go down until stopped"
+    on_release:
+      then:
+        - lambda: |-
+            id(router_lift).set_max_speed(0);
+            id(router_lift).set_target(id(router_lift).current_position);
+        - script.execute: stop
+
+  - platform: gpio
+    name: "Zero Button"
+    pin:
+      number: GPIO14
+      inverted: True
+      mode:
+        input: True
+        pullup: True
+    filters:
+     - delayed_on: 25ms
+    on_press:
+      then:
+        - script.execute: save_zero
+
+  # Zeroing plate
+  - platform: gpio
+    name: "Zero Plate Contact"
+    id: plate_contact
+    pin:
+      number: GPIO15
+      inverted: True
+      mode:
+        input: True
+        pullup: True
+    internal: True
+    filters:
+      - delayed_on: 50ms
+      - delayed_off: 50ms
+
+output:
+  - platform: gpio
+    id: sleep_pin
+    pin:
+      number: GPIO33
+      inverted: true
+  - platform: gpio
+    id: brake_on_pin
+    pin:
+      number: GPIO22
+  - platform: gpio
+    id: brake_off_pin
+    pin:
+      number: GPIO23
+
+# Main zeroing script
+script:
+  - id: save_zero
+    mode: restart
+    then:
+      - lambda: |-
+          id(home_offset) = id(router_lift).current_position;
+      - logger.log: "New Zero set"
+  - id: start
+    mode: restart
+    then:
+      - output.turn_on: sleep_pin
+      - output.turn_on: brake_off_pin
+      - delay: 1s
+      - output.turn_off: sleep_pin
+      - output.turn_off: brake_off_pin
+  - id: stop
+    mode: restart
+    then:
+      - output.turn_on: sleep_pin
+      - output.turn_on: brake_on_pin
+      - delay: 1s
+      - output.turn_off: sleep_pin
+      - output.turn_off: brake_on_pin
+
+interval:
+  - interval: 300ms
+    then:
+      - lambda: |-
+          std::array<uint8_t, 2> data;
+
+          data = {'P', (uint8_t)id(router_lift).current_position};
+          id(uart_tx).write_array((uint8_t*)&data, 2);
+ 
+          data = {'S', (uint8_t)id(speed).state};
+          id(uart_tx).write_array((uint8_t*)&data, 2);
+
+#          // Send 'S' + binary uint8
+#          id(uart_tx).write((uint8_t)'S');
+#          id(uart_tx).write((uint8_t)id(speed).state);

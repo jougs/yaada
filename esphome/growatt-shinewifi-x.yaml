@@ -1,0 +1,359 @@
+esphome:
+  name: growatt-shinewifi-x
+  platform: ESP8266
+  board: esp07s
+
+wifi:
+  ssid: "m4iot"
+  password: !secret iot_wifi_key
+  ap:
+    ssid: "Growatt ShineWiFi-X"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+logger:
+  esp8266_store_log_strings_in_flash: False
+api:
+
+switch:
+  - platform: restart
+    name: "Growatt ShineWiFi-X Restart"
+
+output:
+  - id: growatt_led_blue
+    platform: gpio
+    pin: 16
+  - id: growatt_led_green
+    platform: gpio
+    pin: 0
+  - id: growatt_led_red
+    platform: gpio
+    pin: 2
+
+uart:
+  id: mod_bus
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 115200
+  
+modbus:
+  id: modbus1
+  uart_id: mod_bus
+  
+modbus_controller:
+  - id: growatt
+    address: 0x1
+    modbus_id: modbus1
+    setup_priority: -10
+
+text_sensor:
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X Firmware Version"
+    address: 9
+    register_count: 3
+    register_type: holding
+    #internal: true
+    entity_category: diagnostic
+  - platform: template
+    name: "Growatt ShineWiFi-X Status"
+    icon: mdi:heart-pulse
+    entity_category: diagnostic
+    update_interval: 10s
+    lambda: |-
+      if ((id(status).state) == 0) {
+        return {"Standby"};
+      } else if ((id(status).state) == 1)  {
+        return {"Normal"};
+      } else if ((id(status).state) == 3)  {
+        return {"Fault"};
+      } else {
+        return {"Unknown"};
+      }
+
+  - platform: template
+    name: "Growatt ShineWiFi-X Fault Code"
+    icon: mdi:alert-circle
+    entity_category: diagnostic
+    update_interval: 10s
+    lambda: |-
+      if ((id(fault_code).state) == 24) {
+        return {"Auto test failed"};
+      } else if ((id(fault_code).state) == 25)  {
+        return {"No AC connection"};
+      } else if ((id(fault_code).state) == 26)  {
+        return {"PV isolation low"};
+      } else if ((id(fault_code).state) == 26)  {
+        return {"PV isolation low"};
+      } else if ((id(fault_code).state) == 27)  {
+        return {"Residual high"};
+      } else if ((id(fault_code).state) == 28)  {
+        return {"Output high DCI"};
+      } else if ((id(fault_code).state) == 29)  {
+        return {"PV voltage high"};
+      } else if ((id(fault_code).state) == 30)  {
+        return {"AC V outrange"};
+      } else if ((id(fault_code).state) == 31)  {
+        return {"AC F outrange"};
+      } else if ((id(fault_code).state) == 32)  {
+        return {"Module hot"};
+      } else {
+        return {"Unknown fault code " + to_string(int(id(fault_code).state))};
+      }
+
+number:
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X Max Output Power"
+    address: 3
+    icon: mdi:transmission-tower-export
+    value_type: U_WORD
+    unit_of_measurement: "%"
+    min_value: 0
+    max_value: 100
+  
+sensor:
+  - platform: modbus_controller
+    address: 0
+    register_type: read
+    internal: true
+    value_type: U_WORD
+    accuracy_decimals: 0
+    id: status
+    
+  - platform: modbus_controller
+    address: 105
+    register_type: read
+    internal: true
+    value_type: U_WORD
+    accuracy_decimals: 0    
+    id: fault_code
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV1 DC Voltage"
+    address: 3
+    register_type: read
+    unit_of_measurement: V
+    device_class: voltage
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV1 DC Current"
+    address: 4
+    register_type: read
+    unit_of_measurement: A
+    device_class: current
+    icon: mdi:current-dc
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV1 DC Power"
+    address: 5
+    register_type: read
+    unit_of_measurement: W
+    device_class: power
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV2 DC Voltage"
+    address: 7
+    register_type: read
+    unit_of_measurement: V
+    device_class: voltage
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV2 DC Current"
+    address: 8
+    register_type: read
+    unit_of_measurement: A
+    device_class: current
+    icon: mdi:current-dc
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X PV2 DC Power"
+    address: 9
+    register_type: read
+    unit_of_measurement: W
+    device_class: power
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC1 Voltage"
+    address: 38
+    register_type: read
+    unit_of_measurement: V
+    device_class: voltage
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC1 Current"
+    address: 39
+    register_type: read
+    unit_of_measurement: A
+    device_class: current
+    icon: mdi:current-dc
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC1 Power"
+    address: 40
+    register_type: read
+    unit_of_measurement: W
+    device_class: power
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC2 Voltage"
+    address: 42
+    register_type: read
+    unit_of_measurement: V
+    device_class: voltage
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC2 Current"
+    address: 43
+    register_type: read
+    unit_of_measurement: A
+    device_class: current
+    icon: mdi:current-dc
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC2 Power"
+    address: 44
+    register_type: read
+    unit_of_measurement: W
+    device_class: power
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC3 Voltage"
+    address: 46
+    register_type: read
+    unit_of_measurement: V
+    device_class: voltage
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC3 Current"
+    address: 47
+    register_type: read
+    unit_of_measurement: A
+    device_class: current
+    icon: mdi:current-dc
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC3 Power"
+    address: 48
+    register_type: read
+    unit_of_measurement: W
+    device_class: power
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC Power"
+    address: 35
+    register_type: read
+    unit_of_measurement: W
+    icon: mdi:flash
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X AC Frequency"
+    address: 37
+    register_type: read
+    unit_of_measurement: Hz
+    icon: mdi:sine-wave
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.01
+  
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X Energy Today"
+    address: 53
+    register_type: read
+    unit_of_measurement: kWh
+    device_class: energy
+    icon: mdi:solar-power
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+    
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X Energy Total"
+    address: 55
+    register_type: read
+    unit_of_measurement: kWh
+    state_class: total_increasing
+    device_class: energy
+    icon: mdi:solar-power
+    value_type: U_DWORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+    
+  - platform: modbus_controller
+    name: "Growatt ShineWiFi-X Temperature"
+    address: 93
+    register_type: read
+    unit_of_measurement: "°C"
+    device_class: temperature
+    icon: mdi:thermometer
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1

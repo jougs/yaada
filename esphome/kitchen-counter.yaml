@@ -1,0 +1,37 @@
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Kitchen"
+      esp_name: "kitchen-counter"
+      friendly_name: "Kitchen counter"
+      static_ip: 10.5.5.66
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen floor cabinet counter"
+      iohub_id: pca9685_0
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen bar downlight"
+      iohub_id: pca9685_0
+      channel: 1
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Dining room bar downlight"
+      iohub_id: pca9685_0
+      channel: 2
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 1525.88
+  id: 'pca9685_0'
+  address: 0x40

@@ -1,0 +1,412 @@
+esphome:
+  compile_process_limit: 1
+
+packages:
+  device-base: !include
+    file: common/esp32-base.yaml
+    vars:
+      area: "Basement"
+      esp_name: "basement-hallway"
+      friendly_name: "Basement hallway"
+      static_ip: 10.5.5.79
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway ceiling"
+      iohub_id: pca9685_0
+      channel: 12
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway up-down 1"
+      iohub_id: pca9685_0
+      channel: 13
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway up-down 2"
+      iohub_id: pca9685_0
+      channel: 14
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway up-down 3"
+      iohub_id: pca9685_0
+      channel: 15
+
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 0"
+      id: hallway_stairs_0
+      iohub_id: pca9685_2
+      internal: true
+      channel: 0
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 1"
+      id: hallway_stairs_1
+      iohub_id: pca9685_2
+      internal: true
+      channel: 1
+  light_6: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 2"
+      id: hallway_stairs_2
+      iohub_id: pca9685_2
+      internal: true
+      channel: 2
+  light_7: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 3"
+      id: hallway_stairs_3
+      iohub_id: pca9685_2
+      internal: true
+      channel: 3
+  light_8: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 4"
+      id: hallway_stairs_4
+      iohub_id: pca9685_2
+      internal: true
+      channel: 4
+  light_9: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 5"
+      id: hallway_stairs_5
+      iohub_id: pca9685_2
+      internal: true
+      channel: 5
+  light_10: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 6"
+      id: hallway_stairs_6
+      iohub_id: pca9685_2
+      internal: true
+      channel: 6
+  light_11: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 7"
+      id: hallway_stairs_7
+      iohub_id: pca9685_2
+      internal: true
+      channel: 7
+  light_12: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 8"
+      id: hallway_stairs_8
+      iohub_id: pca9685_2
+      internal: true
+      channel: 8
+  light_13: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 9"
+      id: hallway_stairs_9
+      iohub_id: pca9685_2
+      internal: true
+      channel: 9
+  light_14: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 10"
+      id: hallway_stairs_10
+      iohub_id: pca9685_2
+      internal: true
+      channel: 10
+  light_15: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 11"
+      id: hallway_stairs_11
+      iohub_id: pca9685_2
+      internal: true
+      channel: 11
+  light_16: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 12"
+      id: hallway_stairs_12
+      iohub_id: pca9685_2
+      internal: true
+      channel: 12
+  light_17: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 13"
+      id: hallway_stairs_13
+      iohub_id: pca9685_2
+      internal: true
+      channel: 13
+  light_18: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 14"
+      id: hallway_stairs_14
+      iohub_id: pca9685_2
+      internal: true
+      channel: 14
+  light_19: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Hallway stairs 15"
+      id: hallway_stairs_15
+      iohub_id: pca9685_2
+      internal: true
+      channel: 15
+
+  light_20: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway nightlight 0"
+      id: hallway_nightlight_0
+      iohub_id: pca9685_3
+      internal: true
+      channel: 0
+  light_21: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway nightlight 1"
+      id: hallway_nightlight_1
+      iohub_id: pca9685_3
+      internal: true
+      channel: 1
+  light_22: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway nightlight 2"
+      id: hallway_nightlight_2
+      iohub_id: pca9685_3
+      internal: true
+      channel: 2
+  light_23: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Downstairs hallway nightlight 3"
+      id: hallway_nightlight_3
+      iohub_id: pca9685_3
+      internal: true
+      channel: 3
+
+switch:
+  - platform: gpio
+    pin: GPIO19
+    name: "Doorbell"
+    id: doorbell
+    icon: "mdi:bell-outline"
+    on_turn_on:
+      - delay: 2000ms
+      - switch.turn_off: doorbell
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  - id: 'pca9685_0'
+    address: 0x40
+    frequency: 1525.88
+  - id: 'pca9685_1'
+    address: 0x41
+    frequency: 1525.88
+  - id: 'pca9685_2'
+    address: 0x42
+    frequency: 1525.88
+  - id: 'pca9685_3'
+    address: 0x43
+    frequency: 1525.88
+    
+output:
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_1'
+    channel: 1
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_2'
+    channel: 2
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_3'
+    channel: 3
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_4'
+    channel: 4
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_5'
+    channel: 5
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_6'
+    channel: 6
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_7'
+    channel: 7
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_8'
+    channel: 8
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_9'
+    channel: 9
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_10'
+    channel: 10
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_11'
+    channel: 11
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_1'
+    channel: 1
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_2'
+    channel: 2
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_3'
+    channel: 3
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_4'
+    channel: 4
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_5'
+    channel: 5
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_6'
+    channel: 6
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_7'
+    channel: 7
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_8'
+    channel: 8
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_9'
+    channel: 9
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_10'
+    channel: 10
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_11'
+    channel: 11
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_12'
+    channel: 12
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_13'
+    channel: 13
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_14'
+    channel: 14
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_15'
+    channel: 15
+
+light:
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 1"
+    red: 'pca9685_1_0'
+    green: 'pca9685_1_1'
+    blue: 'pca9685_1_2'
+    white: 'pca9685_1_3'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 2"
+    red: 'pca9685_1_4'
+    green: 'pca9685_1_5'
+    blue: 'pca9685_1_6'
+    white: 'pca9685_1_7'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 3"
+    red: 'pca9685_1_8'
+    green: 'pca9685_1_9'
+    blue: 'pca9685_1_10'
+    white: 'pca9685_1_11'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 4"
+    red: 'pca9685_1_12'
+    green: 'pca9685_1_13'
+    blue: 'pca9685_1_14'
+    white: 'pca9685_1_15'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 5"
+    red: 'pca9685_0_0'
+    green: 'pca9685_0_1'
+    blue: 'pca9685_0_2'
+    white: 'pca9685_0_3'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 6"
+    red: 'pca9685_0_4'
+    green: 'pca9685_0_5'
+    blue: 'pca9685_0_6'
+    white: 'pca9685_0_7'
+  - platform: rgbw    
+    name: "Downstairs_hallway stele 7"
+    red: 'pca9685_0_8'
+    green: 'pca9685_0_9'
+    blue: 'pca9685_0_10'
+    white: 'pca9685_0_11'
+
+  - platform: partition
+    name: "Hallway stairs"
+    segments:
+      - single_light_id: hallway_stairs_0
+      - single_light_id: hallway_stairs_1
+      - single_light_id: hallway_stairs_2
+      - single_light_id: hallway_stairs_3
+      - single_light_id: hallway_stairs_4
+      - single_light_id: hallway_stairs_5
+      - single_light_id: hallway_stairs_6
+      - single_light_id: hallway_stairs_7
+      - single_light_id: hallway_stairs_8
+      - single_light_id: hallway_stairs_9
+      - single_light_id: hallway_stairs_10
+      - single_light_id: hallway_stairs_11
+      - single_light_id: hallway_stairs_12
+      - single_light_id: hallway_stairs_13
+      - single_light_id: hallway_stairs_14
+      - single_light_id: hallway_stairs_15
+  - platform: partition
+    name: "Downstairs hallway nightlight"
+    segments:
+      - single_light_id: hallway_nightlight_0
+      - single_light_id: hallway_nightlight_1
+      - single_light_id: hallway_nightlight_2
+      - single_light_id: hallway_nightlight_3

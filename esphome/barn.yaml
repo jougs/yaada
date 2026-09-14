@@ -1,0 +1,125 @@
+wifi:
+  ssid: "treppenhaus"
+  password: "X07614760498"
+  manual_ip:
+    gateway: 192.168.1.2
+  
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Utility wing"
+      esp_name: "barn"
+      friendly_name: "Barn"
+      #static_ip: 10.5.5.74
+      static_ip: 192.168.1.10
+
+  light_1: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Tractor shed"
+      iohub_id: mcp23017_0
+      channel: 1
+  light_2: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Garage"
+      iohub_id: mcp23017_0
+      channel: 2
+  light_3: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Front ambient"
+      iohub_id: mcp23017_0
+      channel: 3
+  light_4: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Front yard"
+      iohub_id: mcp23017_0
+      channel: 4
+  light_5: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Linden"
+      iohub_id: mcp23017_0
+      channel: 5
+  light_6: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Side yard"
+      iohub_id: mcp23017_0
+      channel: 6
+  light_7: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Gardening shed"
+      iohub_id: mcp23017_0
+      channel: 7
+
+i2c:
+  sda: D3
+  scl: D4
+  scan: true
+
+mcp23017:
+  - id: 'mcp23017_0'
+    address: 0x20
+
+switch:
+  - platform: gpio
+    internal: True
+    id: b0
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 8
+      mode: OUTPUT
+    inverted: true
+  - platform: gpio
+    id: b1
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 9
+      mode: OUTPUT
+    inverted: true
+
+binary_sensor:
+  - platform: gpio
+    internal: true
+    id: b10
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 10
+      mode:
+        pullup: true
+        input: true
+      inverted: true
+  - platform: gpio
+    internal: true
+    id: b11
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 11
+      mode:
+        pullup: true
+        input: true
+      inverted: true
+
+cover:
+  - platform: endstop
+    name: "Garage door"
+    id: garage_door
+    open_action:
+      - switch.turn_on: b1   # pwr
+      - switch.turn_off: b0  # dir
+    open_duration: 15sec
+    open_endstop: b10
+    close_action:
+      - switch.turn_on: b1   # pwr
+      - switch.turn_on: b0   # dir
+    close_duration: 15sec
+    close_endstop: b11
+    stop_action:
+      - switch.turn_off: b1  # pwr
+      - switch.turn_off: b0  # dir

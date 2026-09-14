@@ -1,0 +1,40 @@
+esphome:
+  name: entrance-door
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "m4iot"
+  password: !secret iot_wifi_key
+  ap:
+    ssid: "Entrance Door"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+logger:
+  esp8266_store_log_strings_in_flash: False
+api:
+
+switch:
+  - platform: restart
+    name: "Entrance Door"
+
+mqtt:
+  broker: 10.5.5.1
+
+# https://www.smarthome-tricks.de/esp8266/rfid-reader-rc522/
+
+spi:
+  clk_pin: D5
+  mosi_pin: D7
+  miso_pin: D6
+
+rc522_spi:
+  cs_pin: D8
+  reset_pin: D3
+  on_tag:
+    then:
+      - mqtt.publish:
+          topic: rfid/tag
+          payload: !lambda 'return x;'

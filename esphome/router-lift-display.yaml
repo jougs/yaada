@@ -1,0 +1,81 @@
+esphome:
+  name: router-lift-display
+  friendly_name: Router lift display
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: treppenhaus
+  password: X07614760498
+  ap:
+    ssid: "Router lift display"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+  password: "ff9a29e671488128092b7593d861cce3"
+logger:
+  esp8266_store_log_strings_in_flash: False
+  baud_rate: 0
+api:
+  encryption:
+    key: "7iXP146u7Qjg983qlbShWmsOjOFhwYnFHIdya5innrI="
+
+switch:
+  - platform: restart
+    name: "Router lift display Restart"
+
+uart:
+  id: uart_rx
+  rx_pin: RX
+  baud_rate: 115200
+
+i2c:
+  sda: D5
+  scl: D6
+  scan: true
+  id: bus_a
+
+sensor:
+  - platform: template
+    name: "Z Position"
+    id: position
+    unit_of_measurement: "mm"
+    accuracy_decimals: 2
+
+  - platform: template
+    id: speed
+    name: "Z Speed"
+    unit_of_measurement: ""
+
+display:
+  - platform: lcd_pcf8574
+    dimensions: 16x2
+    address: 0x27
+    id: router_display
+    update_interval: 500ms
+    lambda: |-
+      char buf[16];
+      snprintf(buf, sizeof(buf), "Z=%.1f", id(position).state);
+      it.print(0, 0, buf);
+      snprintf(buf, sizeof(buf), "S:%d", (int)id(speed).state);
+      it.print(8, 0, buf);
+
+custom_component:
+  - lambda: |-
+      struct UARTParser : public Component, public UARTDevice {
+        UARTParser(UARTComponent *parent) : UARTDevice(parent) {}
+        void loop() override {
+          while (available()) {
+            uint8_t k = read();
+            uint8_t v = read();
+            if (k == 'P') {
+              id(position).publish_state(v / 50.0);  // (200 steps/rev; 4mm/rev)
+            } 
+            if (k == 'S') {
+              id(speed).publish_state(v);
+            }
+          }
+        }
+      };
+      return {new UARTParser(id(uart_rx))};

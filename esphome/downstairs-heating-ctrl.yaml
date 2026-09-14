@@ -1,0 +1,101 @@
+wifi:
+  ssid: "treppenhaus"
+  password: "X07614760498"
+
+packages:
+  device-base: !include
+    file: common/esp32-base.yaml
+    vars:
+      area: "Downstairs hallway"
+      esp_name: "downstairs-heating-ctrl"
+      friendly_name: "Downstairs heating control"
+      static_ip: 10.5.5.75
+
+i2c:
+  sda: 26
+  scl: 25
+  scan: true
+
+mcp23017:
+  - id: mcp23017_0
+    address: 0x20
+
+switch:
+  - platform: gpio
+    id: valve_bathroom_vanity
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 0
+      mode: OUTPUT
+  - platform: gpio
+    id: valve_bathroom_wet_area
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 1
+      mode: OUTPUT
+  - platform: template
+    name: "Valve bathroom"
+    optimistic: True
+    turn_on_action:
+      - switch.turn_on: valve_bathroom_vanity
+      - switch.turn_on: valve_bathroom_wet_area
+    turn_off_action:
+      - switch.turn_off: valve_bathroom_vanity
+      - switch.turn_off: valve_bathroom_wet_area
+
+  - platform: gpio
+    id: valve_bedroom_window
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 2
+      mode: OUTPUT
+  - platform: gpio
+    id: valve_bedroom_wall
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 3
+      mode: OUTPUT
+  - platform: template
+    name: "Valve bedroom"
+    optimistic: True
+    turn_on_action:
+      - switch.turn_on: valve_bedroom_window
+      - switch.turn_on: valve_bedroom_wall
+    turn_off_action:
+      - switch.turn_off: valve_bedroom_window
+      - switch.turn_off: valve_bedroom_wall
+
+  - platform: gpio
+    name: "Valve office"
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 4
+      mode: OUTPUT
+
+  - platform: gpio
+    id: valve_hallway_entrance
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 5
+      mode: OUTPUT
+  - platform: gpio
+    id: valve_hallway_back
+    internal: True
+    pin:
+      mcp23xxx: mcp23017_0
+      number: 6
+      mode: OUTPUT
+  - platform: template
+    name: "Valve hallway"
+    optimistic: True
+    turn_on_action:
+      - switch.turn_on: valve_hallway_entrance
+      - switch.turn_on: valve_hallway_back
+    turn_off_action:
+      - switch.turn_off: valve_hallway_entrance
+      - switch.turn_off: valve_hallway_back

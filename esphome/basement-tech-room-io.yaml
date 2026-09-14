@@ -1,0 +1,455 @@
+# board: nodemcu-32s
+
+esphome:
+  compile_process_limit: 1
+
+wifi:
+  ssid: m4_iot_ug
+
+packages:
+  device-base: !include
+    file: common/esp32-base.yaml
+    vars:
+      area: "Basement"
+      esp_name: "basement-tech-room-io"
+      friendly_name: "Basement tech room IO"
+      static_ip: 10.5.5.72
+  mqtt: !include
+    file: common/mqtt.yaml
+
+  wall_switch_0: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom hallway door top"
+      mqtt_name: master_bedroom_hallway_door_top
+      iohub_id: sx1509_0
+      pin_number: 0
+  wall_switch_1: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom hallway door bottom up"
+      mqtt_name: master_bedroom_hallway_door_bottom_up
+      iohub_id: sx1509_0
+      pin_number: 1
+  wall_switch_2: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom hallway door bottom down"
+      mqtt_name: master_bedroom_hallway_door_bottom_down
+      iohub_id: sx1509_0
+      pin_number: 2
+  wall_switch_3: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom bathroom door"
+      mqtt_name: master_bedroom_bathroom_door
+      iohub_id: sx1509_0
+      pin_number: 3
+  wall_switch_4: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom balcony door top left"
+      mqtt_name: master_bedroom_balcony_door_top_left
+      iohub_id: sx1509_0
+      pin_number: 4
+  wall_switch_5: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom balcony door top right"
+      mqtt_name: master_bedroom_balcony_door_top_right
+      iohub_id: sx1509_0
+      pin_number: 5
+  wall_switch_6: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom balcony door bottom up"
+      mqtt_name: master_bedroom_balcony_door_bottom_up
+      iohub_id: sx1509_0
+      pin_number: 6
+  wall_switch_7: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom balcony door bottom down"
+      mqtt_name: master_bedroom_balcony_door_bottom_down
+      iohub_id: sx1509_0
+      pin_number: 7
+  wall_switch_8: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom fixed glazing top up"
+      mqtt_name: master_bedroom_fixed_glazing_top_up
+      iohub_id: sx1509_0
+      pin_number: 8
+  wall_switch_9: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom fixed glazing top down"
+      mqtt_name: master_bedroom_fixed_glazing_top_down
+      iohub_id: sx1509_0
+      pin_number: 9
+  wall_switch_10: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom fixed glazing bottom up"
+      mqtt_name: master_bedroom_fixed_glazing_bottom_up
+      iohub_id: sx1509_0
+      pin_number: 10
+  wall_switch_11: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom fixed glazing bottom down"
+      mqtt_name: master_bedroom_fixed_glazing_bottom_down
+      iohub_id: sx1509_0
+      pin_number: 11
+  wall_switch_12: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom bedside window left"
+      mqtt_name: master_bedroom_bedside_window_left
+      iohub_id: sx1509_0
+      pin_number: 12
+  wall_switch_13: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom bedside window_right"
+      mqtt_name: master_bedroom_bedside_window_right
+      iohub_id: sx1509_0
+      pin_number: 13
+  wall_switch_14: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom bedside door left"
+      mqtt_name: master_bedroom_bedside_door_left
+      iohub_id: sx1509_0
+      pin_number: 14
+  wall_switch_15: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bedroom bedside door right"
+      mqtt_name: master_bedroom_bedside_door_right
+      iohub_id: sx1509_0
+      pin_number: 15
+
+  wall_switch_16: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Doorbell"
+      mqtt_name: doorbell
+      iohub_id: sx1509_1
+      pin_number: 0
+  wall_switch_17: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bathroom bedroom door"
+      mqtt_name: master_bathroom_bedroom_door
+      iohub_id: sx1509_1
+      pin_number: 1
+  wall_switch_18: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Master bathroom vanity"
+      mqtt_name: master_bathroom_vanity
+      iohub_id: sx1509_1
+      pin_number: 2
+  wall_switch_20: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:
+      name: "Office hallway door"
+      mqtt_name: office_hallway_door
+      iohub_id: sx1509_1
+      pin_number: 4
+  wall_switch_21: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Office window up"
+      mqtt_name: office_window_up
+      iohub_id: sx1509_1
+      pin_number: 5
+  wall_switch_22: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Office window down"
+      mqtt_name: office_window_down
+      iohub_id: sx1509_1
+      pin_number: 6
+  wall_switch_23: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Laundry room hallway door"
+      mqtt_name: laundry_room_hallway_door
+      iohub_id: sx1509_1
+      pin_number: 7
+  wall_switch_24: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Laundry room bathroom door bottom"
+      mqtt_name: laundry_room_bathroom_door_bottom
+      iohub_id: sx1509_1
+      pin_number: 8
+  wall_switch_25: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Laundry room bathroom door top"
+      mqtt_name: laundry_room_bathroom_door_top
+      iohub_id: sx1509_1
+      pin_number: 9
+  wall_switch_26: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Laundry room balcony door left"
+      mqtt_name: laundry_room_balcony_door_left
+      iohub_id: sx1509_1
+      pin_number: 10
+  wall_switch_27: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Laundry room balcony door right"
+      mqtt_name: laundry_room_balcony_door_right
+      iohub_id: sx1509_1
+      pin_number: 11
+  wall_switch_28: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway entrance door"
+      mqtt_name: downstairs_hallway_entrance_door
+      iohub_id: sx1509_1
+      pin_number: 12
+  wall_switch_29: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway workshop door top"
+      mqtt_name: downstairs_hallway_workshop_door_top
+      iohub_id: sx1509_1
+      pin_number: 13
+  wall_switch_30: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway workshop door bottom"
+      mqtt_name: downstairs_hallway_workshop_door_bottom
+      iohub_id: sx1509_1
+      pin_number: 14
+  wall_switch_31: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway office door"
+      mqtt_name: downstairs_hallway_office_door
+      iohub_id: sx1509_1
+      pin_number: 15
+
+  wall_switch_32: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway laundry room door"
+      mqtt_name: downstairs_hallway_laundry_room_door
+      iohub_id: sx1509_2
+      pin_number: 0
+  wall_switch_33: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Downstairs hallway furnace room door"
+      mqtt_name: downstairs_hallway_furnace_room_door
+      iohub_id: sx1509_2
+      pin_number: 1
+  wall_switch_34: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Upstairs hallway stairs"
+      mqtt_name: upstairs_hallway_stairs
+      iohub_id: sx1509_2
+      pin_number: 2
+  wall_switch_35: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Furnace room backyard door right"
+      mqtt_name: furnace_room_backyard_door_right
+      iohub_id: sx1509_2
+      pin_number: 3
+  wall_switch_36: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Furnace room backyard door left"
+      mqtt_name: furnace_room_backyard_door_left
+      iohub_id: sx1509_2
+      pin_number: 4
+  wall_switch_37: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Bathroom vanity recess left"
+      mqtt_name: bathroom_vanity_recess_left
+      iohub_id: sx1509_2
+      pin_number: 5
+  wall_switch_38: !include
+    file: common/wall-switch-sx1509.yaml
+    vars:    
+      name: "Bathroom vanity recess right"
+      mqtt_name: bathroom_vanity_recess_right
+      iohub_id: sx1509_2
+      pin_number: 6
+
+output:
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_0
+    pin: 0
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_1
+    pin: 1
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_2
+    pin: 2
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_3
+    pin: 3
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_4
+    pin: 4
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_5
+    pin: 5
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_6
+    pin: 6
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_7
+    pin: 7
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_8
+    pin: 8
+    inverted: true
+  - platform: sx1509
+    sx1509_id: sx1509_3
+    id: sx1509_3_9
+    pin: 9
+    inverted: true
+    
+fan:
+  - platform: binary
+    output: sx1509_3_8
+    name: "Bathroom Fan"
+
+switch:
+  - platform: output
+    name: "Master bedroom tube radio"
+    output: sx1509_3_0
+  - platform: output
+    name: "Downstairs hallway wardrobe closet"
+    output: sx1509_3_5
+  - platform: output
+    name: "Entrance door opener"
+    icon: "mdi:door-closed-lock"
+    id: entrance_door_opener
+    output: sx1509_3_7
+    on_turn_on:
+    - delay: 2000ms
+    - switch.turn_off: entrance_door_opener
+
+light:
+  - platform: binary
+    name: "Bedroom gift box"
+    output: sx1509_3_1
+  - platform: binary
+    name: "Bedroom rubber tree"
+    output: sx1509_3_2
+  - platform: binary
+    name: "Office ceiling"
+    output: sx1509_3_3
+  - platform: binary
+    name: "Laundry room ceiling"
+    output: sx1509_3_4
+  - platform: binary
+    name: "Downstairs hallway sewing machine"
+    output: sx1509_3_6
+  - platform: binary
+    name: "Laundry room wall"
+    output: sx1509_3_9
+
+uart:
+  id: uart_bus
+  rx_pin: GPIO1
+  rx_buffer_size: 2048
+  # tx_pin: GPIO3
+  baud_rate: 9600
+  data_bits: 8
+  parity: NONE
+  stop_bits: 1
+
+sml:
+  id: mysml
+  uart_id: uart_bus
+
+sensor:
+  - platform: sml
+    name: "Grid consumption raw"
+    id: grid_consumption_raw
+    sml_id: mysml
+    obis_code: "1-0:1.8.0"
+    unit_of_measurement: kWh
+    accuracy_decimals: 2
+    device_class: energy
+    state_class: total_increasing
+    filters:
+      - multiply: 0.0001
+  - platform: sml
+    name: "Grid return raw"
+    id: grid_return_raw
+    sml_id: mysml
+    obis_code: "1-0:2.8.0"
+    unit_of_measurement: kWh
+    accuracy_decimals: 2
+    device_class: energy
+    state_class: total_increasing
+    filters:
+      - multiply: 0.0001
+  - platform: sml
+    name: "Active Power"
+    sml_id: mysml
+    obis_code: "1-0:16.7.0"
+    unit_of_measurement: W
+    accuracy_decimals: 0
+    device_class: power
+    state_class: measurement
+
+select:
+  - platform: template
+    name: "Doorbell mode"
+    options:
+      - "Ring"
+      - "Ring+Visual"
+      - "Silent"
+    optimistic: true
+    icon: mdi:bell-cog
+    set_action:
+      - logger.log:
+          format: "Doorbell mode changed to: %s"
+          args: [x.c_str()]
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+sx1509:
+  - id: 'sx1509_0'
+    address: 0x3E
+  - id: 'sx1509_1'
+    address: 0x3F
+  - id: 'sx1509_2'
+    address: 0x70
+  - id: 'sx1509_3'
+    address: 0x71

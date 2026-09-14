@@ -1,0 +1,58 @@
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Utility wing"
+      esp_name: "workshop-light"
+      friendly_name: "Workshop light"
+      static_ip: 10.5.5.71
+
+wifi:
+  ssid: "m4_iot_shop"
+
+output:
+  - platform: gpio
+    pin: D1
+    id: output_1
+  - platform: gpio
+    pin: D5
+    id: output_2
+  - platform: gpio
+    pin: D6
+    id: output_3
+  - platform: gpio
+    pin: D7
+    id: output_4
+  - platform: gpio
+    pin: D8
+    id: output_5
+
+light:
+  - platform: binary
+    internal: true
+    id: light_1
+    output: output_1
+  - platform: binary
+    internal: true
+    id: light_2
+    output: output_2
+  - platform: binary
+    internal: true
+    id: light_3
+    output: output_3
+  - platform: binary
+    internal: true
+    id: light_4
+    output: output_4
+  - platform: binary
+    internal: true
+    id: light_5
+    output: output_5
+  - platform: partition
+    name: "Workshop bright"
+    segments:
+      - single_light_id: light_1
+      - single_light_id: light_2
+      - single_light_id: light_3
+      - single_light_id: light_4
+      - single_light_id: light_5

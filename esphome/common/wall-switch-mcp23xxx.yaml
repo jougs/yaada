@@ -1,0 +1,23 @@
+binary_sensor:
+ - platform: gpio
+   name: ${name}
+   filters:
+     - delayed_on: 50ms
+   pin:
+     mcp23xxx: ${iohub_id}
+     number: ${pin_number}
+     mode: INPUT_PULLUP
+     inverted: True
+   on_click:
+     - min_length: 50ms
+       max_length: 350ms
+       then:
+         - mqtt.publish:
+             topic: input
+             payload: ${mqtt_name}_short
+     - min_length: 350ms
+       max_length: 5000ms
+       then:
+         - mqtt.publish:
+             topic: input
+             payload: ${mqtt_name}_long

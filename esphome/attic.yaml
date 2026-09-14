@@ -1,0 +1,178 @@
+
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Attic"
+      esp_name: "attic"
+      friendly_name: "Attic"
+      static_ip: 10.5.5.64
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 1"
+      id: living_west_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 2"
+      id: living_west_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 1
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 3"
+      id: living_west_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 4"
+      id: living_west_4
+      iohub_id: pca9685_0
+      internal: true
+      channel: 3
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 5"
+      id: living_west_5
+      iohub_id: pca9685_0
+      internal: true
+      channel: 4
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling west 6"
+      id: living_west_6
+      iohub_id: pca9685_0
+      internal: true
+      channel: 5
+
+  light_6: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Toilet mirror"
+      iohub_id: pca9685_0
+      channel: 6
+  light_7: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Toilet ledge"
+      iohub_id: pca9685_0
+      channel: 7
+
+  light_8: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 1"
+      id: living_east_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 8
+  light_9: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 2"
+      id: living_east_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 9
+  light_10: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 3"
+      id: living_east_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 10
+  light_11: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 4"
+      id: living_east_4
+      iohub_id: pca9685_0
+      internal: true
+      channel: 11
+  light_12: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 5"
+      id: living_east_5
+      iohub_id: pca9685_0
+      internal: true
+      channel: 12
+  light_13: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 6"
+      id: living_east_6
+      iohub_id: pca9685_0
+      internal: true
+      channel: 13
+  light_14: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 7"
+      id: living_east_7
+      iohub_id: pca9685_0
+      internal: true
+      channel: 14
+  light_15: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room ceiling east 8"
+      id: living_east_8
+      iohub_id: pca9685_0
+      internal: true
+      channel: 15
+
+  light_16: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Top attic gable"
+      iohub_id: pca9685_1
+      channel: 0
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+
+pca9685:
+  - id: 'pca9685_0'
+    frequency: 1525.88
+    address: 0x40
+  - id: 'pca9685_1'
+    frequency: 1525.88
+    address: 0x41
+
+light:
+  - platform: partition
+    name: "Living room ceiling west"
+    segments:
+      - single_light_id: living_west_1
+      - single_light_id: living_west_2
+      - single_light_id: living_west_3
+      - single_light_id: living_west_4
+      - single_light_id: living_west_5
+      - single_light_id: living_west_6
+  - platform: partition
+    name: "Living room ceiling east"
+    segments:
+      - single_light_id: living_east_1
+      - single_light_id: living_east_2
+      - single_light_id: living_east_3
+      - single_light_id: living_east_4
+      - single_light_id: living_east_5
+      - single_light_id: living_east_6
+      - single_light_id: living_east_7
+      - single_light_id: living_east_8

@@ -1,0 +1,59 @@
+esphome:
+  name: ${esp_name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: false
+  area: ${area}
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+  level: DEBUG
+  logs:
+    sensor: DEBUG
+    i2c: DEBUG
+api:
+  encryption:
+    key: "rNrBBjIRuc9/n0SvNKEK9L6Ip5iBuNlse6Q8/TGbqK8="
+
+ota:
+  - platform: esphome
+    password: "d95beb0c510a00a9ba21a55fe1b94250"
+
+wifi:
+  ssid: "m4iot"
+  password: !secret wifi_password
+  ap:
+    ssid: ${friendly_name} AP
+    password: !secret wifi_password
+  manual_ip:
+    static_ip: ${static_ip}
+    gateway: 10.5.5.1
+    subnet: 255.255.255.0
+
+mdns:
+
+captive_portal:
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+button:
+  - platform: restart
+    name: ${friendly_name} Restart
+    id: button_restart
+
+sensor:
+  - platform: wifi_signal
+    name: "RSSI"
+    id: sensor_rssi
+    update_interval: 90s
+    entity_category: "diagnostic"
+  - platform: uptime
+    name: "Uptime"
+    id: sensor_uptime
+    update_interval: 300s
+    entity_category: "diagnostic"

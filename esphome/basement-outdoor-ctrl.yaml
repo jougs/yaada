@@ -1,0 +1,62 @@
+esphome:
+  name: basement-outdoor-ctrl
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "m4iot"
+  password: !secret iot_wifi_key
+  ap:
+    ssid: "Basement Outdoor Ctrl"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+logger:
+api:
+
+switch:
+  - platform: restart
+    name: "Basement Outdoor Ctrl Restart"
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  - id: 'pca9685_0'
+    address: 0x40
+    frequency: 1525.88
+
+output:
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_1'
+    channel: 1
+  - platform: gpio
+    pin: D5
+    inverted: true
+    id: output_light_terrace_bedroom
+  - platform: gpio
+    pin: D6
+    inverted: true
+    id: output_light_backyard
+
+light:
+  - platform: monochromatic
+    name: "Entrance door floor"
+    output: 'pca9685_0_0'
+  - platform: monochromatic
+    name: "Front porch floor"
+    output: 'pca9685_0_1'
+  - platform: binary
+    name: "Bedroom terrace"
+    output: output_light_terrace_bedroom
+  - platform: binary
+    name: "Back yard"
+    output: output_light_backyard

@@ -1,0 +1,133 @@
+wifi:
+  ssid: "m4_iot_shop"
+
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Utility wing"
+      esp_name: "furnace-room-ctrl"
+      friendly_name: "Furnace room control"
+      static_ip: 10.5.5.76
+
+  mqtt: !include
+    file: common/mqtt.yaml
+
+mqtt:
+  on_message:
+    - topic: blast_gate/maslow
+      then:
+        - servo.write:
+            id: blast_gate_maslow
+            level: !lambda 'return atof(x.c_str());'
+    - topic: blast_gate/work_bench
+      then:
+        - servo.write:
+            id: blast_gate_work_bench
+            level: !lambda 'return atof(x.c_str());'
+    - topic: blast_gate/table_saw
+      then:
+        - servo.write:
+            id: blast_gate_table_saw
+            level: !lambda 'return atof(x.c_str());'
+    - topic: blast_gate/mitre_saw
+      then:
+        - servo.write:
+            id: blast_gate_mitre_saw
+            level: !lambda 'return atof(x.c_str());'
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 50 Hz
+  id: 'pca9685_0'
+  address: 0x40
+  
+switch:
+  - platform: gpio
+    pin: D6
+    name: "Furnace room compressor"
+  - platform: gpio
+    pin: D5
+    name: "Furnace room dust collection"
+
+output:
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_1'
+    channel: 1
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_2'
+    channel: 2
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_3'
+    channel: 3
+  - platform: gpio
+    pin: D8
+    id: output_workshop_light
+
+light:
+  - platform: binary
+    output: output_workshop_light
+    name: "Workshop walkthrough"
+
+servo:
+  - id: blast_gate_maslow
+    output: pca9685_0_0
+  - id: blast_gate_work_bench
+    output: pca9685_0_1
+  - id: blast_gate_table_saw
+    output: pca9685_0_2
+  - id: blast_gate_mitre_saw
+    output: pca9685_0_3
+
+binary_sensor:
+  - platform: gpio
+    name: "Furnace room compressor"
+    pin:
+      number: D7
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    on_click:
+      min_length: 66ms
+      max_length: 350ms
+      then:
+        - mqtt.publish:
+            topic: input
+            payload: "furnace_room_compressor_short"
+    filters:
+      - delayed_on: 10ms
+  - platform: gpio
+    name: "Workshop light"
+    pin:
+      number: 1 # TX
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    on_click:
+      - min_length: 66ms
+        max_length: 350ms
+        then:
+          - mqtt.publish:
+              topic: input
+              payload: "workshop_light_short"
+      - min_length: 350ms
+        max_length: 5000ms
+        then:
+          - mqtt.publish:
+              topic: input
+              payload: "workshop_light_long"
+    filters:
+      - delayed_on: 10ms

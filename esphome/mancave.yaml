@@ -1,0 +1,243 @@
+
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Mancave"
+      esp_name: "mancave"
+      friendly_name: "Mancave"
+      static_ip: 10.5.5.70
+  mqtt: !include
+    file: common/mqtt.yaml
+
+  wall_switch_0: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Barn workshop door"
+      mqtt_name: barn_workshop_door
+      iohub_id: mcp23017_0
+      pin_number: 0
+  wall_switch_1: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Mancave barn door"
+      mqtt_name: mancave_barn_door
+      iohub_id: mcp23017_0
+      pin_number: 1
+  wall_switch_2: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Mancave hallway door left"
+      mqtt_name: mancave_hallway_door_left
+      iohub_id: mcp23017_0
+      pin_number: 2
+  wall_switch_3: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Mancave hallway door right"
+      mqtt_name: mancave_hallway_door_right
+      iohub_id: mcp23017_0
+      pin_number: 3
+
+  binary_light_0: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Barn main"
+      iohub_id: mcp23017_0
+      channel: 12
+  binary_light_1: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Barn chandelier 1"
+      iohub_id: mcp23017_0
+      channel: 13
+  binary_light_2: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Barn chandelier 2"
+      iohub_id: mcp23017_0
+      channel: 14
+
+wifi:
+  ssid: "m4_iot_shop"
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+
+pca9685:
+  - id: 'pca9685_0'
+    address: 0x40
+    frequency: 1525.88
+  - id: 'pca9685_1'
+    address: 0x41
+    frequency: 1525.88
+
+mcp23017:
+  - id: 'mcp23017_0'
+    address: 0x20
+
+output:
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_1'
+    channel: 1
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_2'
+    channel: 2
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_3'
+    channel: 3
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_4'
+    channel: 4
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_5'
+    channel: 5
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_6'
+    channel: 6
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_7'
+    channel: 7
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_8'
+    channel: 8
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_9'
+    channel: 9
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_10'
+    channel: 10
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_11'
+    channel: 11
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_12'
+    channel: 12
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_13'
+    channel: 13
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_14'
+    channel: 14
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_15'
+    channel: 15
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_0'
+    channel: 0
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_1'
+    channel: 1
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_2'
+    channel: 2
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_3'
+    channel: 3
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_4'
+    channel: 4
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_5'
+    channel: 5
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_6'
+    channel: 6
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_7'
+    channel: 7
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_8'
+    channel: 8
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_9'
+    channel: 9
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_10'
+    channel: 10
+  - platform: pca9685
+    pca9685_id: 'pca9685_1'
+    id: 'pca9685_1_11'
+    channel: 11
+    
+light:
+  - platform: binary
+    name: "Mancave ceiling long wall"
+    output: pca9685_0_3
+  - platform: binary
+    name: "Mancave ceiling short wall"
+    output: pca9685_0_7
+#  - platform: rgbw
+#    name: "Mancave ceiling long wall"
+#    red: 'pca9685_0_0'
+#    green: 'pca9685_0_1'
+#    blue: 'pca9685_0_2'
+#    white: 'pca9685_0_3'
+#  - platform: rgbw
+#    name: "Mancave ceiling short wall"
+#    red: 'pca9685_0_4'
+#    green: 'pca9685_0_5'
+#    blue: 'pca9685_0_6'
+#    white: 'pca9685_0_7'
+  - platform: rgbw
+    name: "Mancave corner left"
+    red: 'pca9685_0_8'
+    green: 'pca9685_0_9'
+    blue: 'pca9685_0_10'
+    white: 'pca9685_0_11'
+  - platform: rgbw
+    name: "Mancave corner right"
+    red: 'pca9685_0_12'
+    green: 'pca9685_0_13'
+    blue: 'pca9685_0_14'
+    white: 'pca9685_0_15'
+  - platform: rgbw
+    name: "Mancave death zone"
+    red: 'pca9685_1_0'
+    green: 'pca9685_1_1'
+    blue: 'pca9685_1_2'
+    white: 'pca9685_1_3'
+  - platform: rgbw
+    name: "Mancave base camp"
+    red: 'pca9685_1_4'
+    green: 'pca9685_1_5'
+    blue: 'pca9685_1_6'
+    white: 'pca9685_1_7'
+  - platform: rgbw
+    name: "Mancave boulder"
+    red: 'pca9685_1_8'
+    green: 'pca9685_1_9'
+    blue: 'pca9685_1_10'
+    white: 'pca9685_1_11'

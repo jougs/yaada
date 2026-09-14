@@ -1,0 +1,151 @@
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Upstairs hallway"
+      esp_name: "upstairs-tech-room-light"
+      friendly_name: "Upstairs tech room light"
+      static_ip: 10.5.5.69
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 1"
+      id: guest_bathroom_ceiling_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 2"
+      id: guest_bathroom_ceiling_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 1
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 3"
+      id: guest_bathroom_ceiling_3
+      iohub_id: pca9685_0
+      internal: true
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 4"
+      id: guest_bathroom_ceiling_4
+      iohub_id: pca9685_0
+      internal: true
+      channel: 3
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 5"
+      id: guest_bathroom_ceiling_5
+      iohub_id: pca9685_0
+      internal: true
+      channel: 4
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom ceiling 6"
+      id: guest_bathroom_ceiling_6
+      iohub_id: pca9685_0
+      internal: true
+      channel: 5
+
+  light_6: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Kitchen floor cabinet fridge"
+      iohub_id: pca9685_0
+      channel: 6
+
+  light_7: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Tech room ceiling"
+      iohub_id: pca9685_0
+      channel: 7
+
+  light_8: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom recess 1"
+      id: guest_bathroom_recess_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 8
+  light_9: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom recess 2"
+      id: guest_bathroom_recess_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 9
+
+  light_10: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom mirror"
+      iohub_id: pca9685_0
+      channel: 10
+  light_11: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Guest bathroom skylight"
+      iohub_id: pca9685_0
+      channel: 11
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 1525.88
+  id: 'pca9685_0'
+  address: 0x40
+
+output:
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_12'
+    channel: 12
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_13'
+    channel: 13
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_14'
+    channel: 14
+  - platform: pca9685
+    pca9685_id: 'pca9685_0'
+    id: 'pca9685_0_15'
+    channel: 15
+
+light:
+  - platform: partition
+    name: "Guest bathroom ceiling"
+    segments:
+      - single_light_id: guest_bathroom_ceiling_1
+      - single_light_id: guest_bathroom_ceiling_2
+      - single_light_id: guest_bathroom_ceiling_3
+      - single_light_id: guest_bathroom_ceiling_4
+      - single_light_id: guest_bathroom_ceiling_5
+      - single_light_id: guest_bathroom_ceiling_6
+  - platform: partition
+    name: "Guest bathroom recess"
+    segments:
+      - single_light_id: guest_bathroom_recess_1
+      - single_light_id: guest_bathroom_recess_2
+  - platform: rgbw    
+    name: "Upstairs hallway corner"
+    red: 'pca9685_0_15'
+    green: 'pca9685_0_14'
+    blue: 'pca9685_0_13'
+    white: 'pca9685_0_12'

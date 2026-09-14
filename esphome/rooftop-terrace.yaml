@@ -1,0 +1,53 @@
+esphome:
+  name: rooftop-terrace
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "m4iot"
+  password: !secret iot_wifi_key
+  ap:
+    ssid: "Rooftop Terrace"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+logger:
+  esp8266_store_log_strings_in_flash: False
+api:
+
+switch:
+  - platform: restart
+    name: "Rooftop Terrace Restart"
+
+binary_sensor:
+  - platform: gpio
+    name: "Roof hatch reed"
+    pin:
+      number: D2
+      mode:
+        input: true
+        pullup: true
+        inverted: true
+    on_click:
+      min_length: 66ms
+      max_length: 350ms
+      then:
+        - mqtt.publish:
+            topic: input
+            payload: "roof_hatch_reed_short"
+  - platform: gpio
+    name: "Roof hatch light switch"
+    pin:
+      number: D2
+      mode:
+        input: true
+        pullup: true
+        inverted: true
+    on_click:
+      min_length: 66ms
+      max_length: 350ms
+      then:
+        - mqtt.publish:
+            topic: input
+            payload: "roof_hatch_light_switch_short"

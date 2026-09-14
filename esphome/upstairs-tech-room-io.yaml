@@ -1,0 +1,285 @@
+# board: nodemcu-32s
+
+packages:
+  device-base: !include
+    file: common/esp32-base.yaml
+    vars:
+      area: "Upstairs hallway"
+      esp_name: "upstairs-tech-room-io"
+      friendly_name: "Upstairs tech room IO"
+      static_ip: 10.5.5.68
+  mqtt: !include
+    file: common/mqtt.yaml
+
+  wall_switch_0: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Upstairs hallway guest room door"
+      mqtt_name: upstairs_hallway_guest_room_door
+      iohub_id: mcp23017_0
+      pin_number: 1
+  wall_switch_1: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Upstairs hallway kitchen door"
+      mqtt_name: upstairs_hallway_kitchen_door
+      iohub_id: mcp23017_0
+      pin_number: 2
+
+  wall_switch_2: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Toilet"
+      mqtt_name: toilet
+      iohub_id: mcp23017_0
+      pin_number: 3
+
+  wall_switch_3: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room chimney left"
+      mqtt_name: living_room_chimney_left
+      iohub_id: mcp23017_0
+      pin_number: 4
+  wall_switch_4: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room chimney right"
+      mqtt_name: living_room_chimney_right
+      iohub_id: mcp23017_0
+      pin_number: 5
+  wall_switch_5: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room balcony door top left"
+      mqtt_name: living_room_balcony_door_top_left
+      iohub_id: mcp23017_0
+      pin_number: 6
+  wall_switch_6: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room balcony door top right"
+      mqtt_name: living_room_balcony_door_top_right
+      iohub_id: mcp23017_0
+      pin_number: 7
+  wall_switch_7: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room balcony door bottom up"
+      mqtt_name: living_room_balcony_door_bottom_up
+      iohub_id: mcp23017_0
+      pin_number: 8
+  wall_switch_8: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Living room balcony door bottom down"
+      mqtt_name: living_room_balcony_door_bottom_down
+      iohub_id: mcp23017_0
+      pin_number: 9
+
+  wall_switch_9: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Kitchen hallway door"
+      mqtt_name: kitchen_hallway_door
+      iohub_id: mcp23017_0
+      pin_number: 10
+  wall_switch_10: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Kitchen living room door left"
+      mqtt_name: kitchen_living_room_door_left
+      iohub_id: mcp23017_0
+      pin_number: 11
+  wall_switch_11: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Kitchen living room door right"
+      mqtt_name: kitchen_living_room_door_right
+      iohub_id: mcp23017_0
+      pin_number: 12
+
+  wall_switch_12: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room back wall"
+      mqtt_name: guest_room_back_wall
+      iohub_id: mcp23017_0
+      pin_number: 13
+  wall_switch_13: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room hallway door"
+      mqtt_name: guest_room_hallway_door
+      iohub_id: mcp23017_0
+      pin_number: 14
+  wall_switch_14: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room guest bathroom door"
+      mqtt_name: guest_room_guest_bathroom_door
+      iohub_id: mcp23017_0
+      pin_number: 15
+  wall_switch_15: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room balcony door top left"
+      mqtt_name: guest_room_balcony_door_top_left
+      iohub_id: mcp23017_1
+      pin_number: 8
+  wall_switch_16: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room balcony door top right"
+      mqtt_name: guest_room_balcony_door_top_right
+      iohub_id: mcp23017_1
+      pin_number: 9
+  wall_switch_17: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room balcony door bottom up"
+      mqtt_name: guest_room_balcony_door_bottom_up
+      iohub_id: mcp23017_1
+      pin_number: 10
+  wall_switch_18: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest room balcony door bottom down"
+      mqtt_name: guest_room_balcony_door_bottom_down
+      iohub_id: mcp23017_1
+      pin_number: 11
+
+  wall_switch_19: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Guest bathroom ledge"
+      mqtt_name: guest_bathroom_ledge
+      iohub_id: mcp23017_1
+      pin_number: 12
+
+  wall_switch_20: !include
+    file: common/wall-switch-mcp23xxx.yaml
+    vars:
+      name: "Tech room doors"
+      mqtt_name: tech_room_doors
+      iohub_id: mcp23017_1
+      pin_number: 13
+
+  binary_light_0: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Balcony light south"
+      iohub_id: mcp23017_1
+      channel: 0
+  binary_light_1: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Balcony light east"
+      iohub_id: mcp23017_1
+      channel: 1
+
+  binary_light_2: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Facade light north"
+      iohub_id: mcp23017_1
+      channel: 2
+
+  binary_light_3: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Upstairs hallway giftbox"
+      iohub_id: mcp23017_1
+      channel: 4
+  binary_light_4: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Upstairs hallway apothecary cabinet"
+      iohub_id: mcp23017_1
+      channel: 5
+  binary_light_5: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Upstairs hallway walls"
+      iohub_id: mcp23017_1
+      channel: 6
+  binary_light_6: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Dining room fairy string" # floor tank 2
+      iohub_id: mcp23017_1
+      channel: 7
+
+  binary_light_8: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Living room palm tree"
+      iohub_id: mcp23017_2
+      channel: 1
+
+  binary_light_9: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Dining room fairy balls"
+      iohub_id: mcp23017_2
+      channel: 4
+  binary_light_10: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Dining room dresser"
+      iohub_id: mcp23017_2
+      channel: 5
+
+  binary_light_11: !include
+    file: common/binary-light.yaml
+    vars:
+      name: "Guest room ceiling"
+      iohub_id: mcp23017_2
+      channel: 7
+
+mqtt:
+  broker: 10.5.5.1
+  discovery: false
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+mcp23017:
+  - id: 'mcp23017_0'
+    address: 0x20
+  - id: 'mcp23017_1'
+    address: 0x21
+  - id: 'mcp23017_2'
+    address: 0x22
+
+switch:
+  - platform: gpio
+    name: "Guest bathroom mirror heating"
+    pin:
+      mcp23xxx: mcp23017_1
+      number: 3
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "Living room subwoofer"
+    pin:
+      mcp23xxx: mcp23017_2
+      number: 0
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "Living room floor tank 1"
+    pin:
+      mcp23xxx: mcp23017_2
+      number: 2
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "Living room wall socket media" # Amp
+    pin:
+      mcp23xxx: mcp23017_2
+      number: 3
+      mode: OUTPUT
+      inverted: False

@@ -1,0 +1,16 @@
+defaults:
+  id: light_${iohub_id}_${channel}
+
+output:
+  - platform: gpio
+    id: ${iohub_id}_${channel}
+    pin:
+      mcp23xxx: ${iohub_id}
+      number: ${channel}
+      mode: OUTPUT
+
+light:
+  - platform: binary
+    id: ${id}
+    name: ${name}
+    output: ${iohub_id}_${channel}

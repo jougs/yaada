@@ -1,0 +1,92 @@
+packages:
+  device-base: !include
+    file: common/esp8266-base.yaml
+    vars:
+      area: "Kitchen"
+      esp_name: "pantry"
+      friendly_name: "Pantry"
+      static_ip: 10.5.5.65
+
+  light_0: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Pantry downlight 1"
+      id: pantry_downlight_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 0
+  light_1: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Pantry downlight 2"
+      id: pantry_downlight_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 1
+
+  light_2: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Pantry shelf 1"
+      id: pantry_shelf_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 2
+  light_3: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Panry shelf 2"
+      id: pantry_shelf_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 3
+
+  light_4: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room fireplace 1"
+      id: living_room_fireplace_1
+      iohub_id: pca9685_0
+      internal: true
+      channel: 6
+  light_5: !include
+    file: common/monochromatic-light.yaml
+    vars:
+      name: "Living room fireplace 2"
+      id: living_room_fireplace_2
+      iohub_id: pca9685_0
+      internal: true
+      channel: 7
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+  
+pca9685:
+  frequency: 1525.88
+  id: 'pca9685_0'
+  address: 0x40
+
+binary_sensor:
+  - platform: gpio
+    pin: 12
+    name: "Pantry motion"
+    device_class: motion
+
+light:
+  - platform: partition
+    name: "Pantry downlight"
+    segments:
+      - single_light_id: pantry_downlight_1
+      - single_light_id: pantry_downlight_2
+  - platform: partition
+    name: "Pantry shelf"
+    segments:
+      - single_light_id: pantry_shelf_1
+      - single_light_id: pantry_shelf_2
+  - platform: partition
+    name: "Living room fireplace"
+    segments:
+      - single_light_id: living_room_fireplace_1
+      - single_light_id: living_room_fireplace_2

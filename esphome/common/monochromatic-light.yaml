@@ -1,0 +1,28 @@
+defaults:
+  internal: false
+  min_brightness: "0.0"
+  max_brightness: "1.0"
+  id: light_${iohub_id}_${channel}
+
+output:
+  - platform: pca9685
+    pca9685_id: ${iohub_id}
+    id: ${iohub_id}_${channel}
+    channel: ${channel}
+  - platform: template
+    id: ${iohub_id}_${channel}_limited
+    type: float
+    write_action:
+      - output.set_level:
+          id: ${iohub_id}_${channel}
+          level: !lambda |-
+            const float min_val = ${min_brightness};
+            const float max_val = ${max_brightness};
+            return min_val + (state * (max_val - min_val));
+
+light:
+  - platform: monochromatic
+    name: ${name}
+    id: ${id}
+    internal: ${internal}
+    output: ${iohub_id}_${channel}_limited

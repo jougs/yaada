@@ -1,0 +1,115 @@
+esphome:
+  name: tester
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "treppenhaus"
+  password: "X07614760498"
+  ap:
+    ssid: "Tester"
+    password: !secret fallback_ap_key
+
+captive_portal:
+ota:
+logger:
+  esp8266_store_log_strings_in_flash: False
+api:
+
+switch:
+  - platform: restart
+    name: "Tester Restart"
+
+mqtt:
+  broker: homehub.lan
+  discovery: false
+
+i2c:
+  sda: D4
+  scl: D5
+  scan: True
+  
+sx1509:
+  - id: 'sx1509_0'
+    address: 0x3E
+
+binary_sensor:
+  - platform: gpio
+    name: "Tester button"
+    pin:
+      sx1509: sx1509_0
+      number: 0
+      mode: 
+        input: true
+        pullup: true
+      inverted: true
+    on_click:
+      min_length: 66ms
+      max_length: 350ms
+      then:
+        - mqtt.publish:
+            topic: input
+            payload: "tester_button_short"
+
+
+
+#output:
+#  - platform: esp8266_pwm
+#    pin: D2
+#    frequency: 1000 Hz
+#    id: pwm_output
+#
+#light:
+#  - platform: monochromatic
+#    name: "Test Fairy Lights"
+#    output: pwm_output
+
+
+
+#sensor:
+#  - platform: dht
+#    model: AM2302
+#    pin: D4
+#    temperature:
+#      name: "Growbox Temperature 1"
+#    humidity:
+#      name: "Growbox Humidity 1"
+#    update_interval: 60s
+
+
+
+
+
+
+#
+# DOOR-RIEGELE
+# DOOR-RIEGELE
+# DOOR-RIEGELE
+#
+#mqtt:
+#  broker: homehub
+#  discovery: false
+#  on_message:
+#    - topic: riegele/open
+#      then:
+#        - servo.write:
+#            id: riegele
+#            level: !lambda 'return atof(x.c_str());'
+#        #- delay: 2s
+#        #- servo.write:
+#        #    id: riegele
+#        #    level: 10%
+#
+## Example configuration entry
+#servo:
+#  - id: riegele
+#    output: pwm_output
+#    transition_length: 0.5s
+#
+## Example output platform
+## On ESP32, use ledc output
+#output:
+#  - platform: esp8266_pwm
+#    id: pwm_output
+#    pin: D1
+#    frequency: 50 Hz

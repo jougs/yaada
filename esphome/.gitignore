@@ -1,0 +1,4 @@
+.esphome/
+.device-builder*
+.offloader_pairings.json
+secrets.yaml
