@@ -4,7 +4,8 @@ import hassapi as hass
 
 class Solar(hass.Hass):
 
-    prefix = "sensor.growatt_shinewifi_x_"
+    prefix = "growatt_shinewifi"
+    prefix = f"sensor.{prefix}_x_{prefix}_x_"
 
     solar_sensors = [
         "energy_today",
@@ -26,14 +27,13 @@ class Solar(hass.Hass):
         for sensor in self.solar_sensors:
             self.get_entity(self.prefix + sensor).listen_state(self.update_sensor)
 
-        self.get_entity("sensor.active_power").listen_state(self.update_house_meter_sensors)
-            
+        self.get_entity("sensor.basement_tech_room_io_active_power").listen_state(self.update_house_meter_sensors)
+        
         self.update_house_meter_sensors(0,0,0,0,0)
         self.update_all_sensors()
-        
+
 
     def update_sensor(self, entity, attribute, old, new, kwargs):
-
         self.update_all_sensors()
 
 
@@ -45,8 +45,8 @@ class Solar(hass.Hass):
 
         state = None
         try:
-            [float(v) for v in values]
-            state = "/".join(values) + " " + unit
+            floats = [float(v) for v in values]
+            state = "/".join([f"{x:.1f}" for x in floats]) + " " + unit
         except ValueError:
             if zero_by_night:
                 state = "/".join(["0.0"] * len(values)) + " " + unit
@@ -76,12 +76,17 @@ class Solar(hass.Hass):
                 if efficiency <= 100:
                     attributes = {"friendly_name": "Conversion efficiency", "icon": "mdi:cog-clockwise", "unit_of_measurement": " %"}
                     self.set_state("sensor.pv_efficiency", state=f"{efficiency:.2f}", attributes=attributes)
-        
+
                 peak_percentage = (dc_power / 12000) * 100
                 attributes = {"friendly_name": "Peak percentage", "icon": "mdi:chart-donut", "unit_of_measurement": " %"}
                 self.set_state("sensor.pv_peak_percentage", state=f"{peak_percentage:.2f}", attributes=attributes)
-            
-        pv_status = self.get_state("sensor.growatt_shinewifi_x_status")
+
+        prod_now = self.get_state("sensor.growatt_shinewifi_x_growatt_shinewifi_x_ac_power")
+        prod_now = 0 if prod_now == "unavailable" else float(prod_now)
+        attributes = {"friendly_name": "Production now", "icon": "mdi:solar-power", "unit_of_measurement": "W", "state_class": "measurement", "device_class": "energy"}
+        self.set_state("sensor.pv_production_now", state=f"{prod_now:.2f}" , attributes=attributes)
+
+        pv_status = self.get_state(self.prefix + "status")
         pv_status = pv_status if pv_status != "unavailable" else "Offline"
         attributes = {"friendly_name": "Inverter status", "icon": "mdi:heart-pulse"}
         self.set_state(f"sensor.pv_status", state=pv_status, attributes=attributes)
@@ -91,9 +96,10 @@ class Solar(hass.Hass):
 
         ac_power = self.get_state(self.prefix + "ac_power")
         ac_power = float(ac_power) if ac_power != 'unavailable' and ac_power is not None else 0
-        active_power = self.get_state("sensor.active_power")
+        active_power = self.get_state("sensor.basement_tech_room_io_active_power")
         house_power_consumption = "unavailable" if active_power in ("unavailable", "unknown") else int(ac_power + float(active_power))
 
         attributes = {"friendly_name": "House power consumption", "icon": "mdi:flash", "unit_of_measurement": "W", "state_class": "measurement", "device_class": "energy"}
         self.set_state("sensor.house_power_consumption", state=f"{house_power_consumption}", attributes=attributes)
-        
+
+

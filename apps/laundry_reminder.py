@@ -25,7 +25,7 @@ class LaundryReminder(hass.Hass):
 
     def set_wm_sensor(self):
 
-        power = int(self.get_state(self.power_sensor))
+        power = float(self.get_state(self.power_sensor))
 
         self.wm_state = "off"
         if power > 0:

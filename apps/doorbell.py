@@ -4,7 +4,7 @@ from time import sleep
 
 class Doorbell(hass.Hass):
 
-    lights = [f"light.downstairs_hallway_stele_{i}" for i in range(1,8)]
+    lights = [f"light.basement_hallway_downstairs_hallway_stele_{i}" for i in range(1,8)]
     trans_time = 0.25
 
     def initialize(self):
@@ -19,19 +19,22 @@ class Doorbell(hass.Hass):
         if data['payload'] != "doorbell_short":
             return
 
-        doorbell_state = self.get_state("input_select.doorbell_mode", attribute="state")
+        doorbell_mode = self.get_state("select.basement_basement_tech_room_io_doorbell_mode")
+        print(doorbell_mode)
+        
+        if "Ring" in doorbell_mode:
+            self.turn_on("switch.basement_hallway_doorbell")
+            # Turns itself off again after 2s, see ESPHome config
 
-        if "Ring" in doorbell_state:
-            self.turn_on("switch.doorbell") # Turns itself off again after 1.5s, see ESPHome config
-
-        if "Visual" in doorbell_state:
+        if "Visual" in doorbell_mode:
             self.sequence(reversed(self.lights), (255, 0, 0, 0))
 
-        msg_data = {
-            "target": self.args["telegram_target"],
-            "message": f"The doorbell rang!",
-        }
-        self.call_service("telegram_bot/send_message", **msg_data)
+        self.call_service(
+            "telegram_bot/send_message",
+            message=r"🔔 The doorbell rang\!",
+            chat_id=self.args["telegram_target"],
+            parse_mode="markdownv2",
+        )
 
 
     def sequence(self, lights, color):

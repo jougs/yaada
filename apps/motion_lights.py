@@ -5,13 +5,13 @@ import hassapi as hass
 class MotionLights(hass.Hass):
 
     sensors = {
-        'binary_sensor.pantry_motion': {
+        'binary_sensor.pantry_pantry_motion': {
             'delay': 5,
             'transition_on': 1,
             'transition_off': 15,
             'states': {
-                "light.pantry_shelf": {"state": "on", "brightness": 255},
-                "light.pantry_downlight": {"state": "on", "brightness": 255},
+                "light.pantry_pantry_shelf": {"state": "on", "brightness": 255},
+                "light.pantry_pantry_downlight": {"state": "on", "brightness": 255},
             }
         }
     }

@@ -1,0 +1,15 @@
+A: attic
+B: barn_ctrl
+BH: basement_hallway
+BTI: basement_tech_room_io
+BTL: basement_tech_room_light
+BOC: basement_outdoor_ctrl
+FC: furnace_room_ctrl
+FL: furnace_room_light
+KC: kitchen_counter
+KWC: kitchen_wall_cabinet
+M: mancave
+P: pantry
+UTI: upstairs_tech_room_io
+UTL: upstairs_tech_room_light
+WL: workshop_light

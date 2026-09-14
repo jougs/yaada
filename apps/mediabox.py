@@ -13,10 +13,9 @@ class Mediabox(hass.Hass):
         "living_room_mediabox": {
             "name": "Living room Spotify",
             "amps" : [
-                "light.living_room_floor_tank_1",
-                "light.living_room_wall_socket_media",
+                "switch.upstairs_tech_room_io_living_room_subwoofer",
+                "switch.upstairs_tech_room_io_living_room_wall_socket_media",
             ],
-            "delay": 0,
             "hdmi_switch": {
                 "topic": "living_room_hdmi_switch/command",
                 "payload": "Media center",
@@ -25,23 +24,20 @@ class Mediabox(hass.Hass):
         "mancave_musicbox": {
             "name": "Mancave Spotify",
             "amps" : [
-                "switch.mancave_pa_mixer",
-                "switch.mancave_pa_amplifier_1",
-                "switch.mancave_pa_amplifier_2",
+                "switch.mancave_pa_mancave_pa_mixer",
+                "switch.mancave_pa_mancave_pa_amplifier_1",
+                "switch.mancave_pa_mancave_pa_amplifier_2",
             ],
             "delay": 1.5,
         },
         "bedroom_musicbox": {
             "name": "Bedroom Spotify",
             "amps" : [
-                "light.master_bedroom_tube_radio",
+                "switch.basement_tech_room_io_master_bedroom_tube_radio",
             ],
-            "delay": 0,
         },
         "office_musicbox": {
             "name": "Office Spotify",
-            "amps" : [],
-            "delay": 0,
         },
     }
 
@@ -51,7 +47,11 @@ class Mediabox(hass.Hass):
         self_log = self.log
         self.log = lambda func, msg: self_log(f'{func}: {msg}')
 
-        self.spotify = Spotify(client_credentials_manager=SpotifyClientCredentials())
+        client_id = self.args["spotify_client_id"]
+        client_secret = self.args["spotify_client_secret"]
+
+        cred_manager = SpotifyClientCredentials(client_id, client_secret)
+        self.spotify = Spotify(client_credentials_manager=cred_manager)
 
         for topic, mediabox in self.mediaboxes.items():
             self.listen_event(self.state_change, 'MQTT_MESSAGE', topic=topic+"/status", namespace='mqtt')
@@ -132,6 +132,9 @@ class Mediabox(hass.Hass):
             state['friendly_name'] = mediabox['name']
             self.set_state(mediabox['sensor_name'], state=state.pop('state'), attributes=state)
 
+            if "amps" not in mediabox:
+                return
+
             # switch amps last, as this might involve delays
             amp_state = state.pop('amp')
             amps = mediabox['amps'] if amp_state == 'on' else mediabox['amps'][::-1]
@@ -147,7 +150,8 @@ class Mediabox(hass.Hass):
                 # speed: is returned as 0 if the player is on pause
 
                 self.set_amp_state(amp, {'state': amp_state})
-                sleep(mediabox["delay"])
+                if "delay" in mediabox:
+                    sleep(mediabox["delay"])
 
 
     def set_amp_state(self, entity, state):

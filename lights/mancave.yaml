@@ -1,0 +1,41 @@
+area: mancave
+area_friendly: Mancave
+
+all_lights_full_on:
+  C:M_mancave_base_camp:          {state: on, brightness: 255}
+  C:M_mancave_boulder:            {state: on, brightness: 255}
+  C:M_mancave_ceiling_long_wall:  {state: on, brightness: 255}
+  C:M_mancave_ceiling_short_wall: {state: on, brightness: 255}
+  C:M_mancave_corner_left:        {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:M_mancave_corner_right:       {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:M_mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  mancave_table_1:                {state: on, brightness: 255}
+  mancave_table_2:                {state: on, brightness: 255}
+  mancave_table_3:                {state: on, brightness: 255}
+  mancave_table_4:                {state: on, brightness: 255}
+  mancave_table_5:                {state: on, brightness: 255}
+
+scenes:
+  - name: climbing
+    friendly_name: Climbing
+    icon: mdi:carabiner
+    lights:
+      C:M_mancave_ceiling_long_wall:  {state: on, brightness: 255}
+      C:M_mancave_ceiling_short_wall: {state: on, brightness: 255}
+      C:M_mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 0, 0, 255]}
+  - name: rehearsal
+    friendly_name: Rehearsal
+    icon: mdi:guitar-electric
+    lights:
+      C:M_mancave_corner_left:        {state: on, brightness: 255, rgbw_color: [0, 0, 255, 0]}
+      C:M_mancave_corner_right:       {state: on, brightness: 255, rgbw_color: [0, 255, 0, 0]}
+      C:M_mancave_death_zone:         {state: on, brightness: 255, rgbw_color: [255, 0, 0, 0]}
+      mancave_table_1:                {state: on, brightness:  72}
+      mancave_table_2:                {state: on, brightness:  72}
+      mancave_table_3:                {state: on, brightness:  72}
+      mancave_table_4:                {state: on, brightness:  72}
+      mancave_table_5:                {state: on, brightness:  72}
+
+buttons:
+  mancave_hallway_door_right_long: climbing
+  mancave_hallway_door_right_short: rehearsal

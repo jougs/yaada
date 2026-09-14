@@ -1,5 +1,7 @@
 
+import sys
 import json
+import time
 
 from copy import copy, deepcopy
 from pathlib import Path
@@ -9,8 +11,6 @@ from collections import OrderedDict
 import hassapi as hass
 
 from ruamel.yaml import YAML
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 
 yaml = YAML(typ='safe')
 
@@ -24,7 +24,6 @@ class LightArea:
         self.dirs = dirs
 
         data["lights"] = data.pop("all_lights_full_on")
-
         for field in ("area", "lights", "buttons", "switches"):
             if field in data:
                 setattr(self, field, data[field])
@@ -39,8 +38,6 @@ class LightArea:
 
         for switch in self.switches:
             parent.listen_state(self.switch_action, f'binary_sensor.{switch}', attribute='state')
-
-        parent.listen_event(self.button_press, 'MQTT_MESSAGE', topic='input', namespace='mqtt')
 
         self.scene_inputs = []
         for scene_name, scene_data in self.scenes.items():
@@ -113,7 +110,7 @@ class LightArea:
                 file.write(f"  icon: \"{scene_data['icon']}\"\n")
             self.scene_names["input_boolean." + entity_id] = scene_name
         msg = "Home Assistant scene configurations have been (re-)written. Please reload!"
-        self.log('announce_scene_inputs()', "msg")
+        self.log('announce_scene_inputs()', msg)
 
 
     def set_ambient(self, entity, attribute, old, new, kwargs):
@@ -125,10 +122,12 @@ class LightArea:
 
 
     def switch_action(self, entity, attribute, old, new, kwargs):
-        """Handle switches with on/off characteristics."""
+        """Handle switch state changes and set scenes depending on their state (on/off)."""
 
         msg = f'entity={entity}, attribute={attribute}, old={old}, new={new}, kwargs={kwargs}'
         self.log('switch_action()', msg)
+
+        print(f"#### {entity}") 
 
         switch_data = self.switches[entity[14:]]
         toggle_map = {"on": "off", "off": "on"}
@@ -143,13 +142,13 @@ class LightArea:
         self.set_scene_state(scene_data["scene"], new)
 
 
-    def button_press(self, event_name, data, kwargs):
-        """Handle buttons and wall switches.
+    def button_press(self, button):
+        """Handle light switches on the wall (momentary switches).
 
         Button action declarations under the key `buttons` in the YAML
-        file can be one of several possible forms.
+        file can be of several possible forms:
 
-        - *Toggle button*: In the simple case, one MQTT topic is
+        - *Toggle button*: In this simple case, one MQTT topic is
           mapped to one scene name. If the button is pressed, the
           state of the given scene will be toggled. An example for
           this form might look like this:
@@ -158,14 +157,10 @@ class LightArea:
           bathroom_hallway_door_short: bathroom_main
           ```
 
-        - *Toggle button with multi-off function*: In addition to a
-          single scene to toggle, this form of declaration allows to
-          specify a number of scenes to turn *off*, should they be
-          on. This form is useful for scenarios in which alternative
-          scenes can be active within the area, all of which should be
-          switched off with a central switch, e.g., when leaving the
-          area. An example definition of such a button might look like
-          this:
+        - *Toggle button with multi-off function*: This form allows to
+          specify a list of scenes to turn *off*, should they be on
+          when the button is pressed. An example definition of such a
+          button might look like this:
 
           ```yaml
           bathroom_hallway_door_short:
@@ -173,29 +168,26 @@ class LightArea:
             turn_off: [bathroom_main, bathroom_vanity]
           ```
 
-        - *Cycle button*: This declaration form takes a list of scenes
-           through which it cycles on consecutive button presses. If
-           none of the specified scenes is on upon button presses,
-           this specification will turn the first in the list on. This
-           declaration form can be useful for buttons inside an area,
-           which has different scenes. **Please note** that this form
-           of declaration relies on a *replaces* specification in the
-           given scenes that makes sure that only one of the scenes
-           can be active at any given time. An example might look like
-           this:
+        - *Cycle button*: This form takes a list of scenes through
+           which it cycles on consecutive button presses. If none of
+           the specified scenes is on when the button is pressed, the
+           first one from the list will be turned on.
+        
+           **Please note** that this form of declaration relies on a
+           *replaces* specification in the given scenes that makes
+           sure that only one of the scenes can be active at any given
+           time. An example might look like this:
 
           ```yaml
           bathroom_vanity_short:
             cycle: [bathroom_vanity, bathroom_main]
           ```
-
         """
 
-        if (button := data['payload']) not in self.buttons:
+        if button not in self.buttons:
             return
 
-        msg = f'event_name={event_name}, data={data}, kwargs={kwargs}'
-        self.log('button_press()', msg)
+        self.log('button_press()', f"button={button}")
 
         button_data = self.buttons[button]
         toggle_map = {"on": "off", "off": "on"}
@@ -215,8 +207,14 @@ class LightArea:
                 self.set_scene_state(scenes[0], "on")
 
         if "turn_off" in button_data:
-            scenes = button_data["turn_off"]
-            on_scenes = [s for s in scenes if self.scenes[s]["state"] == "on"]
+            items = {"area": [], "floor": [], "scene": []}
+            for el in [x if ":" in x else f"scene:{x}" for x in button_data["turn_off"]]:
+                k, v = el.split(":")
+                items[k].append(v)
+            for loc_type in ("area", "floor"):
+                for loc in items[loc_type]:
+                    self.call_service("light/turn_off", target={f"{loc_type}_id": loc})
+            on_scenes = [s for s in items["scene"] if self.scenes[s]["state"] == "on"]
             if on_scenes:
                 for scene_name in on_scenes:
                     self.set_scene_state(scene_name, "off")
@@ -360,16 +358,24 @@ class SceneManager(hass.Hass):
             "scene_inputs": Path(self.args["scene_input_dir"]),
         }
 
+        with open(self.dirs["scene_data"] / ".controller_names.yaml") as file:
+            self.controller_names = yaml.load(file)
+        
         self.areas = {}
 
         for area in self.dirs["scene_data"].iterdir():
-            self.add_area(area)
+            if not area.name.startswith("."):
+                self.add_area(area)
 
-        observer = Observer()
-        observer.schedule(Handler(self), self.dirs["scene_data"], recursive=True)
-        observer.start()
+        self.mqtt = self.get_plugin_api("MQTT")
+        self.mqtt.listen_event(self.button_press, 'MQTT_MESSAGE', topic="input", namespace='mqtt')
 
         self.log('__init__()', 'initialized app')
+
+
+    def button_press(self, event_name, data, kwargs):
+        for _, area in self.areas.items():
+            area.button_press(data['payload'])
 
 
     def add_area(self, area):
@@ -380,17 +386,26 @@ class SceneManager(hass.Hass):
 
         self.log("Intitializing area", area)
         with open(area) as file:
-            data = yaml.load(file)
+            data = self.filter_keys(yaml.load(file))
             self.areas[str(area)] = LightArea(self, data, self.dirs)
 
 
-class Handler(FileSystemEventHandler):
-    def __init__(self, parent):
-        super(Handler, self).__init__()
-        self.log = parent.log
-        self.add_area = parent.add_area
-    def on_any_event(self, event):
-        if event.is_directory:
-            return None
-        if event.event_type in ("created", "modified"):
-            self.add_area(event.src_path)
+    def filter_keys(self, data):
+
+        filtered = {}
+        def recurse(value):
+            if isinstance(value, dict):
+                 return self.filter_keys(value)
+            return value
+
+        for key, value in data.items():
+            if key.startswith("C:") and "_" in key:
+                cname, suffix = key[2:].split("_", 1)
+                if cname in self.controller_names:
+                    key = f"{self.controller_names[cname]}_{suffix}"
+            if isinstance(value, list):
+                filtered[key] = [recurse(v) for v in value]
+            else:
+                filtered[key] = recurse(value)
+
+        return filtered

@@ -1,19 +1,23 @@
+---
 appdaemon:
-  plugins:
-    HASS:
-      type: hass
-      ha_url: http://localhost:8123
-      token: !secret token
-    MQTT:
-       type: mqtt
-       namespace: mqtt
   latitude: !secret latitude
   longitude: !secret longitude
   elevation: !secret elevation
-  time_zone: Europe/Berlin 
-  app_dir: /srv/appdaemon/data/apps
-api:
-admin:
-hadashboard:
+  time_zone: Europe/Berlin
+  plugins:
+    HASS:
+      type: hass
+      token: !env_var SUPERVISOR_TOKEN
+    MQTT:
+       type: mqtt
+       namespace: mqtt
+       client_id: appdaemon      
+       client_host: 10.5.5.1
+       client_user: !secret mqtt_user
+       client_password: !secret mqtt_password
+       event_name: MQTT_MESSAGE
 http:
-  url: http://localhost:8080
+  url: http://0.0.0.0:5050
+admin:
+api:
+hadashboard:

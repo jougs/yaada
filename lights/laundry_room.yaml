@@ -1,0 +1,30 @@
+area: laundry_room
+area_friendly: Laundry Room
+
+all_lights_full_on:
+  C:BTI_laundry_room_ceiling: {state: on}
+  C:BTI_laundry_room_wall:    {state: on}
+
+scenes:
+  - name: laundry_room_main
+    friendly_name: Laundry room main
+    icon: mdi:lightbulb
+    lights:
+      C:BTI_laundry_room_ceiling: {state: on}
+  - name: laundry_room_wall
+    friendly_name: Laundry room wall
+    icon: mdi:lightbulb
+    lights:
+      C:BTI_laundry_room_wall:    {state: on}
+
+buttons:
+  laundry_room_hallway_door_short:
+      turn_on: laundry_room_main
+      turn_off: [laundry_room_main, laundry_room_wall]
+  laundry_room_bathroom_door_top_short: laundry_room_main
+  laundry_room_balcony_door_left_short:
+      turn_on: laundry_room_main
+      turn_off: [laundry_room_main, laundry_room_wall]
+  laundry_room_hallway_door_long: laundry_room_wall
+  laundry_room_bathroom_door_top_long: laundry_room_wall
+  laundry_room_balcony_door_left_long: laundry_room_wall

@@ -14,8 +14,12 @@ class Power(hass.Hass):
 
         self.notified = False
 
-        for friendly_name in self.sensors:
-            sensor = "sensor." + friendly_name.lower().replace(" ", "_")
+        self.sensors = {
+            f"sensor.basement_tech_room_io_{s.lower().replace(' ', '_')}": s
+            for s in self.sensors
+        }
+
+        for sensor in self.sensors:
             self.get_entity(f"{sensor}_raw").listen_state(self.update_sensor)
 
         self.update_all_sensors()
@@ -60,8 +64,7 @@ class Power(hass.Hass):
 
         meter_misses_info = self.get_state("sensor.active_power") in ("unknown", "unavailable")
 
-        for friendly_name in self.sensors:
-            sensor = "sensor." + friendly_name.lower().replace(" ", "_")
+        for sensor, friendly_name in self.sensors.items():
             entity_attrs = {"friendly_name": friendly_name}
             if meter_misses_info:
                 value = "unknown"

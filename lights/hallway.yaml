@@ -1,0 +1,78 @@
+area: hallway
+area_friendly: Hallway
+
+all_lights_full_on:
+  C:BH_downstairs_hallway_ceiling:           {state:  on, brightness: 255}
+  C:BH_downstairs_hallway_nightlight:        {state:  on, brightness: 255}
+  C:BTI_downstairs_hallway_sewing_machine:   {state:  on}
+  C:BH_downstairs_hallway_stele_1:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_2:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_3:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_4:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_5:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_6:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_stele_7:           {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 196]}
+  C:BH_downstairs_hallway_up_down_1:         {state:  on, brightness: 255}
+  C:BH_downstairs_hallway_up_down_2:         {state:  on, brightness: 255}
+  C:BH_downstairs_hallway_up_down_3:         {state:  on, brightness: 255}
+  C:UTL_guest_bathroom_skylight:             {state:  on, brightness: 255}
+  C:BH_hallway_stairs:                       {state:  on, brightness: 255}
+  C:UTI_upstairs_hallway_apothecary_cabinet: {state:  on}
+  C:UTL_upstairs_hallway_corner:             {state:  on, brightness: 255, rgbw_color: [255, 224, 160, 0]}
+  C:UTI_upstairs_hallway_giftbox:            {state:  on}
+  C:UTI_upstairs_hallway_walls:              {state:  on}
+  C:UTL_tech_room_ceiling:                   {state:  on, brightness: 255}
+
+scenes:
+  - name: ambient
+    friendly_name: Ambient
+    icon: mdi:weather-night
+    lights:
+      C:BH_downstairs_hallway_nightlight:        {state:  on, brightness:  64}
+      C:BTI_downstairs_hallway_sewing_machine:   {state:  on}
+      C:BH_hallway_stairs:                       {state:  on, brightness:  64}
+      C:UTI_upstairs_hallway_apothecary_cabinet: {state:  on}
+      C:UTI_upstairs_hallway_giftbox:            {state:  on}
+  - name: downstairs_hallway
+    friendly_name: Downstairs hallway
+    icon: mdi:arrow-down-bold-box-outline
+    lights:
+      C:BH_downstairs_hallway_ceiling:           {state:  on, brightness: 255}
+      C:BH_downstairs_hallway_nightlight:        {state: off}
+      C:BH_downstairs_hallway_stele_1:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_2:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_3:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_4:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_5:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_6:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_stele_7:           {state:  on, brightness: 196, rgb_color: [255, 224, 160]}
+      C:BH_downstairs_hallway_up_down_1:         {state:  on, brightness: 128}
+      C:BH_downstairs_hallway_up_down_2:         {state:  on, brightness: 128}
+      C:BH_downstairs_hallway_up_down_3:         {state:  on, brightness: 128}
+      C:BH_hallway_stairs:                       {state: off}
+  - name: upstairs_hallway
+    friendly_name: Upstairs hallway
+    icon: mdi:arrow-up-bold-box-outline
+    lights:
+      C:UTI_upstairs_hallway_apothecary_cabinet: {state:  on}
+      C:UTI_upstairs_hallway_walls:              {state:  on}
+  - name: upstairs_tech_room
+    friendly_name: Upstairs tech room
+    icon: mdi:door-sliding
+    lights:
+      C:UTL_tech_room_ceiling:                   {state:  on, brightness: 255}
+
+buttons:
+  downstairs_hallway_entrance_door_short: downstairs_hallway
+  downstairs_hallway_furnace_room_door_short: downstairs_hallway
+  downstairs_hallway_laundry_room_door_short: downstairs_hallway
+  downstairs_hallway_office_door_short: downstairs_hallway
+  downstairs_hallway_workshop_door_bottom_short: downstairs_hallway
+  downstairs_hallway_workshop_door_top_short: upstairs_hallway
+  mancave_hallway_door_left_short: upstairs_hallway
+  upstairs_hallway_guest_room_door_short: upstairs_hallway
+  upstairs_hallway_kitchen_door_short: upstairs_hallway
+  upstairs_hallway_stairs_short: downstairs_hallway
+
+switches:
+  C:UTI_tech_room_doors: upstairs_tech_room

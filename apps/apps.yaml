@@ -5,15 +5,15 @@ ambient_lights:
 bathroom_fan:
   module: bathroom_fan
   class: BathroomFan
-calendars:
-  module: calendars
-  class: Calendars
-  telegram_target: !secret telegram_target
+#calendars:
+#  module: calendars
+#  class: Calendars
+#  telegram_target: !secret telegram_target
 compressor:
   module: compressor
   class: Compressor
-covers:
-  module: covers
+cover_manager:
+  module: cover_manager
   class: CoverManager
 doorbell:
   module: doorbell
@@ -33,6 +33,9 @@ hargassner:
 hdmi_switch:
   module: hdmi_switch
   class: HDMISwitch
+hems:
+  module: hems
+  class: HEMS
 laundry_reminder:
   module: laundry_reminder
   class: LaundryReminder
@@ -40,6 +43,8 @@ laundry_reminder:
 mediabox:
   module: mediabox
   class: Mediabox
+  spotify_client_id: !secret spotify_client_id
+  spotify_client_secret: !secret spotify_client_secret
 movie_lights:
   module: movie_lights
   class: MovieLights
@@ -57,8 +62,8 @@ remote_controls:
 scene_manager:
   module: scene_manager
   class: SceneManager
-  scene_data_dir: "/srv/appdaemon/data/apps/.scene_data"
-  scene_input_dir: "/srv/homeassistant/data/entities/input_boolean/"
+  scene_data_dir: "/share/appdaemon/yadaa/lights"
+  scene_input_dir: "/share/appdaemon/hass_entities/input_boolean"
 solar:
   module: solar
   class: Solar
